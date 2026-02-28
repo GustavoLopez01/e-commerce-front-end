@@ -1,5 +1,4 @@
 import { useState, type SubmitEvent } from "react";
-import { useNavigate } from "react-router";
 import { LockKeyhole, Mail, Package } from "lucide-react";
 import { login } from "../../api/auth/api_login";
 import { errorToast } from "../../toast";
@@ -11,7 +10,6 @@ import {
 import { addCookie } from "../../helpers/cookie";
 
 export default function Login() {
-  const navigate = useNavigate();
   const [loggingIn, setLoggingIn] = useState(false);
 
   const handleLogin = async (event: SubmitEvent<HTMLFormElement>) => {
@@ -27,7 +25,7 @@ export default function Login() {
     if (!isValid.success && isValid.error.issues.length > 0) {
       isValid.error.issues.forEach(error =>
         errorToast(error.message)
-      )
+      );
       return;
     }
 
@@ -37,7 +35,7 @@ export default function Login() {
 
     if (response?.token) {
       addCookie('userToken', response.token);
-      navigate('/dashboard');
+      window.location.href = "/dashboard";
     } else {
       errorToast(response?.message || 'Ocurrió un error al inciar sesión.')
     }

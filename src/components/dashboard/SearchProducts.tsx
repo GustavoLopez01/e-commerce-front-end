@@ -1,10 +1,12 @@
 import { Plus } from "lucide-react";
 
 type SearchProductsProps = {
+  setSearch: (term: string) => void
   setShowModal: () => void
 }
 
 export default function SearchProducts({
+  setSearch,
   setShowModal
 }: SearchProductsProps) {
 
@@ -15,6 +17,7 @@ export default function SearchProducts({
           className="text-black md:col-span-2 px-4 py-2 border border-gray-300 rounded-md outline-0"
           type="text"
           placeholder="Buscar productos..."
+          onChange={({ target }) => setSearch(target.value.toLowerCase())}
         />
 
         <select

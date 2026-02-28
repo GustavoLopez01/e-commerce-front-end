@@ -15,3 +15,9 @@ export const errorToast = (message: string) =>
     ...OPTIONS,
     type: "error"
   });
+
+export const successToast = (message: string) =>
+  toast(message, {
+    ...OPTIONS,
+    type: "success"
+  });
