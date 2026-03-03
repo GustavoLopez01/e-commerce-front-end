@@ -1,4 +1,4 @@
-import type { productCategory } from "./productCategory";
+import type { ProductCategory } from "./productCategory";
 
 export type ApiResponse = {
   success: boolean
@@ -13,7 +13,7 @@ export type Product = {
   quantity: number
   price: number
   image: string
-  category: productCategory
+  category: ProductCategory
 }
 
 export type CreateProduct = Omit<Product, 'id' | 'category'>;

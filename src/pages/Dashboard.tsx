@@ -91,7 +91,9 @@ export default function Dashboard() {
 
       <div className="w-full flex justify-center">
         <div className="w-full flex flex-col px-6">
-          <Header />
+          <Header 
+            products={productsList}
+          />
           <TableProducts
             products={productsList}
             categoriesList={categoriesResponse?.categories ?? []}

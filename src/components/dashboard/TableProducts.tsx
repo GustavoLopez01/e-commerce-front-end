@@ -2,11 +2,11 @@ import { useMemo, useState } from "react";
 import { SquarePen, Trash2 } from "lucide-react";
 import SearchProducts from "./SearchProducts";
 import type { Product } from "../../types/product";
-import type { productCategory } from "../../types/productCategory";
+import type { ProductCategory } from "../../types/productCategory";
 
 type TableProductsProps = {
   products: Product[]
-  categoriesList: productCategory[]
+  categoriesList: ProductCategory[]
   deleteProduct: (product: Product) => void
   setProductToEdit: (product: Product) => void
   setShowModal: (show: boolean) => void
@@ -21,18 +21,22 @@ export default function TableProducts({
 }: TableProductsProps) {
 
   const [search, setSearch] = useState("");
+  const [categoryId, setCategoryId] = useState(0);
 
   const productsToShow = useMemo(() => {
-    if (!search) return products;
+    if (!search && !categoryId) return products;
     return products.filter(product =>
-      product.name.includes(search)
+      (search && product.name.includes(search)) ||
+      product.categoryId === categoryId
     )
-  }, [search, products]);
+  }, [search, products, categoryId]);
 
   return (
     <>
       <SearchProducts
+        categories={categoriesList}
         setSearch={setSearch}
+        setCategoryId={setCategoryId}
         setShowModal={() => setShowModal(true)}
       />
 

@@ -1,12 +1,17 @@
 import { Plus } from "lucide-react";
+import type { ProductCategory } from "../../types/productCategory";
 
 type SearchProductsProps = {
+  categories: ProductCategory[]
   setSearch: (term: string) => void
+  setCategoryId: (id: ProductCategory['id']) => void
   setShowModal: () => void
 }
 
 export default function SearchProducts({
+  categories,
   setSearch,
+  setCategoryId,
   setShowModal
 }: SearchProductsProps) {
 
@@ -22,8 +27,17 @@ export default function SearchProducts({
 
         <select
           className="text-black px-4 py-2 border border-gray-300 rounded-md outline-0"
+          onChange={(e) => setCategoryId(+e.target.value)}
         >
-          <option>Selecciona una opción</option>
+          <option>Todos los productos</option>
+          {categories.length > 0 && categories.map(category => (
+            <option
+              key={category.id}
+              value={category.id}
+            >
+              {category.name}
+            </option>
+          ))}
         </select>
 
         <button
