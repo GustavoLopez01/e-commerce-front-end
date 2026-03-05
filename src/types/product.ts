@@ -1,9 +1,5 @@
+import type { ApiResponse } from "./generalApiResponse";
 import type { ProductCategory } from "./productCategory";
-
-export type ApiResponse = {
-  success: boolean
-  message: string
-}
 
 export type Product = {
   id: number

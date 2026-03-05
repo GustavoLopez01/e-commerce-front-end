@@ -7,3 +7,7 @@ export const addCookie = (name: string, value: string) => {
 export const getCookie = (name: string) => {
   return Cookie.get(name);
 }
+
+export const removeCookie = (name: string) => {
+  return Cookie.remove(name);
+}
