@@ -43,7 +43,10 @@ export default function Sidebar() {
           />
 
           {ROUTES.map(route => (
-            <div className="gap-2">
+            <div 
+              key={route.path}
+              className="gap-2"  
+            >
               <Link
                 className="flex font-medium justify-start items-center gap-7"
                 to={route.path}

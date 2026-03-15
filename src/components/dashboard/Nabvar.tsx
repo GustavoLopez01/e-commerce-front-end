@@ -1,15 +1,12 @@
-import { use, useEffect } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 import { getUserByToken } from "../../api/users/api_user";
 import { useUserStore } from "../../store/useUser";
 import { removeCookie } from "../../helpers/cookie";
 import { LogOut, User } from "lucide-react";
-import { useNavigate } from "react-router";
-
-const user = getUserByToken();
 
 export default function Nabvar() {
   const navigate = useNavigate();
-  const userResponse = use(user);
   const userStore = useUserStore(state => state.user);
   const updateUser = useUserStore(state => state.updateUser);
 
@@ -22,11 +19,13 @@ export default function Nabvar() {
   }
 
   useEffect(() => {
-    if (userResponse?.user) updateUser(userResponse.user);
-  }, [userResponse?.user]);
+    getUserByToken().then(response => {
+      if (response?.user) updateUser(response.user)
+    });
+  }, [])
 
   return (
-    <nav className="w-full flex justify-between text-black shadow px-6 py-5">
+    <nav className="bg-white w-full flex justify-between text-black shadow px-6 py-5">
       <div className="w-full grid grid-cols-2">
         <h3 className="font-bold text-2xl">
           ShopHub

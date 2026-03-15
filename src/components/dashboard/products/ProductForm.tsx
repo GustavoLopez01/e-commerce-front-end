@@ -6,11 +6,11 @@ import {
 import { errorToast, successToast } from "../../../toast";
 import { ProductSchema } from "../../../schema/product.schema";
 import type { CreateProduct, Product } from "../../../types/product";
-import type { productCategory } from "../../../types/productCategory";
+import type { ProductCategory } from "../../../types/productCategory";
 
 type ProductFormProps = {
   product: Product | null
-  categoriesList: productCategory[]
+  categoriesList: ProductCategory[]
   updateProductList: (product: Product) => void
   close: () => void
 }

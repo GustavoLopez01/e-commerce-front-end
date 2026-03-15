@@ -3,6 +3,7 @@ import Dashboard from "../layout/DashboardLayout";
 import Root from "../Root";
 import ProductsList from "../components/dashboard/products/ProductsList";
 import ProfileUser from "../components/dashboard/profile/ProfileUser";
+import UsersMain from "../components/dashboard/users/UsersMain";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         Component: ProfileUser
+      },
+      {
+        path: "users",
+        Component: UsersMain
       }
     ]
   }

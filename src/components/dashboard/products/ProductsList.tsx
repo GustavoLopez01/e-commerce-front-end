@@ -1,4 +1,4 @@
-import { Suspense, use, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import {
   api_deleteProduct,
   api_getAllProducts
@@ -11,14 +11,11 @@ import ProductForm from "./ProductForm";
 import Header from "../Header";
 import TableProducts from "../TableProducts";
 import type { Product } from "../../../types/product";
-
-const products = api_getAllProducts();
-const categories = api_getAllCategories();
+import type { ProductCategory } from "../../../types/productCategory";
 
 export default function ProductsList() {
-  const productsResponse = use(products);
-  const categoriesResponse = use(categories);
-  const [productsList, setProductsList] = useState<Product[]>(productsResponse?.products ?? []);
+  const [productsList, setProductsList] = useState<Product[]>([]);
+  const [categoriesList, setCategoriesList] = useState<ProductCategory[]>([]);
   const [productToEdit, setProductToEdit] = useState<Product | null>(null);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -60,6 +57,15 @@ export default function ProductsList() {
     }
   }
 
+  useEffect(() => {
+    api_getAllProducts().then(response => {
+      setProductsList(response?.products ?? []);
+    });
+    api_getAllCategories().then(response => {
+      setCategoriesList(response?.categories ?? [])
+    });
+  }, []);
+
   return (
     <>
       {showModal && (
@@ -70,7 +76,7 @@ export default function ProductsList() {
           >
             <ProductForm
               product={productToEdit}
-              categoriesList={categoriesResponse?.categories ?? []}
+              categoriesList={categoriesList ?? []}
               updateProductList={handleUpdateProductsList}
               close={() => setShowModal(false)}
             />
@@ -97,7 +103,7 @@ export default function ProductsList() {
           />
           <TableProducts
             products={productsList}
-            categoriesList={categoriesResponse?.categories ?? []}
+            categoriesList={categoriesList ?? []}
             deleteProduct={(product: Product) => {
               setProductToDelete(product);
               setShowDeleteModal(true);
