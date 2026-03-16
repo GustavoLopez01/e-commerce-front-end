@@ -1,15 +1,32 @@
 import { createBrowserRouter } from "react-router";
-import Login from "../components/auth/Login";
-import Dashboard from "../pages/Dashboard";
+import Dashboard from "../layout/DashboardLayout";
+import Root from "../Root";
+import ProductsList from "../components/dashboard/products/ProductsList";
+import ProfileUser from "../components/dashboard/profile/ProfileUser";
+import UsersMain from "../components/dashboard/users/UsersMain";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: Login
+    Component: Root,
   },
   {
-    path: "/dashboard",
-    Component: Dashboard
+    path: "dashboard",
+    Component: Dashboard,
+    children: [
+      {
+        index: true,
+        Component: ProductsList
+      },
+      {
+        path: "profile",
+        Component: ProfileUser
+      },
+      {
+        path: "users",
+        Component: UsersMain
+      }
+    ]
   }
 ]);
 

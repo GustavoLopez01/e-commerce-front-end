@@ -1,17 +1,24 @@
-import type { ApiResponse } from "./generalApiResponse"
+import type { ApiResponse } from "./generalApiResponse";
+import type { UserRole } from "./rol";
 
 export type User = {
   name: string
   email: string
-  phoneNumber: number
+  phoneNumber: string
   lastName: string
   password: string
   isEnabled: boolean
-  rolId: number
+  rolId: UserRole['id']
+}
+
+export type UserBody = User & {
+  id: number
 }
 
 export type ApiGetUserResponse = ApiResponse & {
-  user: User
+  user: UserBody
 }
 
-
+export type ApiGetUserListResponse = ApiResponse & {
+  users: UserBody[]
+}

@@ -1,22 +1,21 @@
-import { useState, use, Suspense } from "react";
-import { api_deleteProduct, api_getAllProducts } from "../api/products/api_product";
-import { api_getAllCategories } from "../api/category-products/api_categoryProducts";
-import { errorToast, successToast } from "../toast";
-import Header from "../components/dashboard/Header";
-import Nabvar from "../components/dashboard/Nabvar";
-import ProductForm from "../components/dashboard/products/ProductForm";
-import TableProducts from "../components/dashboard/TableProducts";
-import CreateProductModal from "../components/modal/CreateProductModal";
-import DeleteModal from "../components/modal/DeleteModal";
-import type { Product } from "../types/product";
+import { Suspense, useEffect, useState } from "react";
+import {
+  api_deleteProduct,
+  api_getAllProducts
+} from "../../../api/products/api_product";
+import { api_getAllCategories } from "../../../api/category-products/api_categoryProducts";
+import { errorToast, successToast } from "../../../toast";
+import CreateProductModal from "../../modal/CreateProductModal";
+import DeleteModal from "../../modal/DeleteModal";
+import ProductForm from "./ProductForm";
+import Header from "../Header";
+import TableProducts from "../TableProducts";
+import type { Product } from "../../../types/product";
+import type { ProductCategory } from "../../../types/productCategory";
 
-const products = api_getAllProducts();
-const categories = api_getAllCategories();
-
-export default function Dashboard() {
-  const productsResponse = use(products);
-  const categoriesResponse = use(categories);
-  const [productsList, setProductsList] = useState<Product[]>(productsResponse?.products ?? []);
+export default function ProductsList() {
+  const [productsList, setProductsList] = useState<Product[]>([]);
+  const [categoriesList, setCategoriesList] = useState<ProductCategory[]>([]);
   const [productToEdit, setProductToEdit] = useState<Product | null>(null);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -58,9 +57,17 @@ export default function Dashboard() {
     }
   }
 
+  useEffect(() => {
+    api_getAllProducts().then(response => {
+      setProductsList(response?.products ?? []);
+    });
+    api_getAllCategories().then(response => {
+      setCategoriesList(response?.categories ?? [])
+    });
+  }, []);
+
   return (
     <>
-      <Nabvar />
       {showModal && (
         <Suspense fallback={<></>}>
           <CreateProductModal
@@ -69,7 +76,7 @@ export default function Dashboard() {
           >
             <ProductForm
               product={productToEdit}
-              categoriesList={categoriesResponse?.categories ?? []}
+              categoriesList={categoriesList ?? []}
               updateProductList={handleUpdateProductsList}
               close={() => setShowModal(false)}
             />
@@ -91,12 +98,12 @@ export default function Dashboard() {
 
       <div className="w-full flex justify-center">
         <div className="w-full flex flex-col px-6">
-          <Header 
+          <Header
             products={productsList}
           />
           <TableProducts
             products={productsList}
-            categoriesList={categoriesResponse?.categories ?? []}
+            categoriesList={categoriesList ?? []}
             deleteProduct={(product: Product) => {
               setProductToDelete(product);
               setShowDeleteModal(true);

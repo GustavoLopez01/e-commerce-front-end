@@ -1,4 +1,4 @@
-import type { ApiResponse } from "./product"
+import type { ApiResponse } from "./generalApiResponse"
 
 export type ProductCategory = {
   id: number

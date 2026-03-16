@@ -10,8 +10,11 @@ export const handleFetch = async (url: string, body: any): Promise<any | null> =
       },
     });
 
-    const finalResponse = await response.json();
+    if (response.status === 401) {
+      window.location.href = "/";
+    }
 
+    const finalResponse = await response.json();
     return finalResponse;
   } catch (error) {
     console.error(`Ocurrió un error al obtener la respuesta de la solicitud - ${error}`);
