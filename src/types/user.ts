@@ -16,7 +16,7 @@ export type UserBody = User & {
 }
 
 export type ApiGetUserResponse = ApiResponse & {
-  user: User
+  user: UserBody
 }
 
 export type ApiGetUserListResponse = ApiResponse & {

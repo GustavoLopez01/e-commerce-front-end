@@ -6,6 +6,7 @@ import type {
   UserBody
 } from "../../types/user";
 import { URL_BACKEND_APP } from "../../constant";
+import type { ApiResponse } from "../../types/generalApiResponse";
 
 export const getUserByToken = async (): Promise<ApiGetUserResponse | null> => {
   try {
@@ -57,6 +58,20 @@ export const updateUser = async (id: UserBody['id'], body: User): Promise<ApiGet
     return response;
   } catch (error) {
     console.error(`Ocurrió un error al actualizar al usuario : ${error}`);
+    return null;
+  }
+}
+
+export const deleteUser = async (id: UserBody['id']): Promise<ApiResponse | null> => {
+  try {
+    const URL = `${URL_BACKEND_APP}/users/${id}`;
+    const response = await handleFetch(URL, {
+      method: "DELETE",
+    });
+
+    return response;
+  } catch (error) {
+    console.error(`Ocurrió un error al eliminar al usaurio : ${error}`);
     return null;
   }
 }

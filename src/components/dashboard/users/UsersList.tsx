@@ -6,15 +6,15 @@ type UsersListProps = {
   usersList: UserBody[]
   rolList: UserRole[]
   setUserToEdit: (user: UserBody) => void
+  deleteUser: (user: UserBody) => void
 }
 
 export default function UsersList({
   usersList,
   rolList,
-  setUserToEdit
+  setUserToEdit,
+  deleteUser
 }: UsersListProps) {
-
-
   return (
     <>
       <table className="w-full rounded-sm shadow table-auto border-collapse text-sm">
@@ -56,7 +56,7 @@ export default function UsersList({
                       />
                       <Trash2
                         className="text-red-500 cursor-pointer size-5"
-                      // onClick={() => deleteProduct(product)}
+                        onClick={() => deleteUser(user)}
                       />
                     </div>
                   </td>

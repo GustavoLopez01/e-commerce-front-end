@@ -8,7 +8,7 @@ import type { UserRole } from "../../../types/rol";
 type UserFormProps = {
   rolList: UserRole[]
   userToEdit: UserBody | null
-  closeModal: () => void
+  closeModal: (user: UserBody) => void
 }
 
 export default function UserForm({
@@ -57,8 +57,16 @@ export default function UserForm({
       return;
     }
 
-    successToast(`Usuario ${userToEdit?.id ? 'actualizado' : 'registrado'} correctamente`);
-    closeModal();
+    if (response?.user) {
+      successToast(`Usuario ${userToEdit?.id ? 'actualizado' : 'registrado'} correctamente`);
+      closeModal(
+        userToEdit?.id ? {
+          ...userToEdit,
+          ...response.user,
+        } :
+          response?.user
+      );
+    }
   }
 
   return (
