@@ -1,7 +1,26 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'inter-regular';
+  src: url('./assets/fonts/Inter_Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'inter-bold';
+  src: url('./assets/fonts/Inter_Bold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --font-family-inter-regular: "inter-regular", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-family-inter-bold: "inter-bold", system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-family-inter-regular);
   line-height: 1.5;
   font-weight: 400;
 
@@ -28,4 +47,8 @@
   button {
     background-color: #f9f9f9;
   }
+}
+
+h3 {
+  font-family: var(--font-family-inter-bold) !important;
 }
