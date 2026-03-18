@@ -16,7 +16,7 @@
 
 @theme {
   --font-family-inter-regular: "inter-regular", system-ui, Avenir, Helvetica, Arial, sans-serif;
-  --font-family-inter-bold: "inter-bold", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-family-inter-bold: "inter-bold";
 }
 
 :root {

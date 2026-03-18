@@ -1,13 +1,32 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import {
+  ChartColumnDecreasing,
   LogOut,
-  Menu,
   PackageSearch,
+  ShoppingBasket,
+  UserCog,
   UserPen,
-  UserPlus
+  Users
 } from "lucide-react";
-import { ROUTES } from "../../constant";
+import {
+  CUSTOMER_ROUTES,
+  DASHBOARD_ROUTES,
+  SALE_ROUTES
+} from "../../constant";
+
+type Route = {
+  label: string
+  value: string
+  path: string
+  icon: string
+}
+
+type RenderRoutesProps = {
+  routes: Route[]
+  showFull: boolean
+}
+
 
 const renderIcon = (icon: string) => {
   switch (icon) {
@@ -17,7 +36,19 @@ const renderIcon = (icon: string) => {
       )
     case "users":
       return (
-        <UserPlus className="text-slate-500" />
+        <UserCog className="text-slate-500" />
+      )
+    case "store":
+      return (
+        <ShoppingBasket className="text-slate-500" />
+      )
+    case "customer":
+      return (
+        <Users className="text-slate-500" />
+      )
+    case "chart":
+      return (
+        <ChartColumnDecreasing className="text-slate-500" />
       )
     default:
       return (
@@ -33,29 +64,28 @@ export default function Sidebar() {
     <>
       <aside
         className={
-          `bg-white h-screen ${showFull ? 'w-80' : 'w-30'} 
-            top-0 text-black flex flex-col pb-6`
+          `bg-white min-h-screen ${showFull ? 'w-80' : 'w-30'} 
+            top-0 text-black flex flex-col pb-6 pt-15`
         }
       >
         <div className="h-full flex flex-col py-6 px-10 gap-5">
-          <Menu
-            onClick={() => setShowFull(!showFull)}
+          <h2 className="font-family-inter-bold">Dashboard</h2>
+          <RenderRoutes
+            routes={DASHBOARD_ROUTES}
+            showFull={showFull}
           />
 
-          {ROUTES.map(route => (
-            <div 
-              key={route.path}
-              className="gap-2"  
-            >
-              <Link
-                className="flex font-medium justify-start items-center gap-7"
-                to={route.path}
-              >
-                {renderIcon(route.icon)}
-                {showFull && route.label}
-              </Link>
-            </div>
-          ))}
+          <h2 className="font-family-inter-bold">Ventas</h2>
+          <RenderRoutes
+            routes={SALE_ROUTES}
+            showFull={showFull}
+          />
+
+          <h2 className="font-family-inter-bold">Clientes</h2>
+          <RenderRoutes
+            routes={CUSTOMER_ROUTES}
+            showFull={showFull}
+          />
         </div>
 
         <button
@@ -67,6 +97,30 @@ export default function Sidebar() {
           />
         </button>
       </aside>
+    </>
+  )
+}
+
+const RenderRoutes = ({
+  routes,
+  showFull
+}: RenderRoutesProps) => {
+  return (
+    <>
+      {routes.map(route => (
+        <div
+          key={route.path}
+          className="gap-2"
+        >
+          <Link
+            className="flex font-medium justify-start items-center gap-7"
+            to={route.path}
+          >
+            {renderIcon(route.icon)}
+            {showFull && route.label}
+          </Link>
+        </div>
+      ))}
     </>
   )
 }

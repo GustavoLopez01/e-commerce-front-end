@@ -2,12 +2,11 @@ import { useUserStore } from "../../../store/useUser";
 
 export default function ProfileUser() {
   const userStore = useUserStore(state => state.user);
-  console.log(userStore);
-  
   return (
     <>
       <form
         className="p-5 grid md:grid-cols-2 xl:grid-cols-3 gap-5 text-black"
+        autoComplete="off"
       >
         <div className="flex flex-col gap-1">
           <label
@@ -21,7 +20,8 @@ export default function ProfileUser() {
             name="name"
             type="text"
             className="w-full pl-5 pr-4 py-2 border border-gray-300 rounded-full outline-0"
-            placeholder="Ingresa tu nombre"
+            placeholder="Ingresa tu nombre(s)"
+            defaultValue={userStore?.name}
           />
         </div>
 
@@ -37,7 +37,25 @@ export default function ProfileUser() {
             name="lastName"
             type="text"
             className="w-full pl-5 pr-4 py-2 border border-gray-300 rounded-full outline-0"
-            placeholder="Ingresa tu nombre"
+            placeholder="Ingresa tu apellido(s)"
+            defaultValue={userStore?.lastName}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label
+            htmlFor="phoneNumber"
+            className="px-1"
+          >
+            Teléfono
+          </label>
+          <input
+            id="lastName"
+            name="lastName"
+            type="text"
+            className="w-full pl-5 pr-4 py-2 border border-gray-300 rounded-full outline-0"
+            placeholder="Teléfono"
+            defaultValue={userStore?.phoneNumber}
           />
         </div>
 
@@ -53,7 +71,8 @@ export default function ProfileUser() {
             name="email"
             type="email"
             className="w-full pl-5 pr-4 py-2 border border-gray-300 rounded-full outline-0"
-            placeholder="Ingresa tu nombre"
+            placeholder="Ingresa tu correo electrónico"
+            defaultValue={userStore?.email}
           />
         </div>
 

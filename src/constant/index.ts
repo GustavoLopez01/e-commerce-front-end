@@ -1,10 +1,8 @@
-
-
 export const URL_BACKEND_APP =
   import.meta.env.VITE_REACT_APP_URL_BACKEND;
 
 
-export const ROUTES = [
+export const DASHBOARD_ROUTES = [
   {
     label: "Productos",
     value: "products",
@@ -18,9 +16,33 @@ export const ROUTES = [
     icon: "users"
   },
   {
-    label: "Perfil",
+    label: "Analíticas",
+    value: "analytics",
+    path: "/dashboard/analytics",
+    icon: "chart"
+  },
+  {
+    label: "Mi Perfil",
     value: "profile",
     path: "/dashboard/profile",
     icon: "profile"
+  },
+];
+
+export const SALE_ROUTES = [
+  {
+    label: "Ordenes",
+    value: "orders",
+    path: "/dashboard/orders",
+    icon: "store"
+  },
+];
+
+export const CUSTOMER_ROUTES = [
+  {
+    label: "Clientes",
+    value: "clients",
+    path: "/dashboard/clients",
+    icon: "customer"
   },
 ];

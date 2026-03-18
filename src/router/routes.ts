@@ -4,6 +4,7 @@ import Root from "../Root";
 import ProductsList from "../components/dashboard/products/ProductsList";
 import ProfileUser from "../components/dashboard/profile/ProfileUser";
 import UsersMain from "../components/dashboard/users/UsersMain";
+import CustomersMain from "../components/dashboard/customers/CustomersMain";
 
 const router = createBrowserRouter([
   {
@@ -23,8 +24,12 @@ const router = createBrowserRouter([
         Component: ProfileUser
       },
       {
-        path: "users",
+        path: "employees",
         Component: UsersMain
+      },
+      {
+        path: "clients",
+        Component: CustomersMain
       }
     ]
   }
