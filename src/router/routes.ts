@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         Component: ProfileUser
       },
       {
-        path: "employees",
+        path: "users",
         Component: UsersMain
       },
       {

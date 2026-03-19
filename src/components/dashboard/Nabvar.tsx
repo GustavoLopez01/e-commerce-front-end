@@ -25,7 +25,7 @@ export default function Nabvar() {
   }, [])
 
   return (
-    <nav className="absolute bg-white w-full flex justify-between text-black shadow px-6 py-5 z-20">
+    <nav className="absolute bg-white w-full flex justify-between text-black shadow px-6 py-5">
       <div className="w-full grid grid-cols-2">
         <h3 className="font-bold text-2xl">
           ShopHub

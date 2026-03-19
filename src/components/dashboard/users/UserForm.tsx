@@ -179,9 +179,9 @@ export default function UserForm({
         </div>
 
         <button
-          className="w-full py-2 rounded-md font-bold cursor-pointer bg-blue-500 text-white"
+          className="w-full cursor-pointer bg-blue-500 text-white py-2 rounded-md font-bold font-family-inter-bold"
         >
-          Guardar
+          {userToEdit?.id ? 'Actualizar' : 'Guardar'}
         </button>
       </form>
     </>

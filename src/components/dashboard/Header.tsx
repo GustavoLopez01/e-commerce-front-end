@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import Card from "./Card";
 import type { Product } from "../../types/product";
+import { formatCurrency } from "../../helpers/string-functions";
 
 type HeaderProps = {
   products: Product[]
@@ -20,9 +21,9 @@ export default function Header({
       },
       {
         title: "Valor del inventario",
-        value: products.reduce((acc, product) =>
+        value: formatCurrency(products.reduce((acc, product) =>
           acc + product.price, 0
-        ),
+        )),
         icon: "",
         color: "bg-green-100 text-green-600"
       },

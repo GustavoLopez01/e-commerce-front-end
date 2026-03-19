@@ -3,6 +3,7 @@ import { SquarePen, Trash2 } from "lucide-react";
 import SearchProducts from "./SearchProducts";
 import type { Product } from "../../types/product";
 import type { ProductCategory } from "../../types/productCategory";
+import { formatCurrency } from "../../helpers/string-functions";
 
 type TableProductsProps = {
   products: Product[]
@@ -82,7 +83,7 @@ export default function TableProducts({
                       {categoryName}
                     </td>
                     <td className="text-center">
-                      {product.price}
+                      {formatCurrency(product.price)}
                     </td>
                     <td className="text-center">
                       {product.quantity}

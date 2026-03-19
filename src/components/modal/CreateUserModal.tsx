@@ -9,14 +9,16 @@ import type { ReactNode } from "react";
 
 type CreateUserModalProps = {
   isOpen: boolean
-  close: () => void
+  title: string
   children: ReactNode
+  close: () => void
 }
 
 export default function CreateUserModal({
   isOpen,
+  title,
+  children,
   close,
-  children
 }: CreateUserModalProps) {
   return (
     <Dialog
@@ -42,9 +44,9 @@ export default function CreateUserModal({
             </div>
             <DialogTitle
               as="h3"
-              className="text-center font-bold text-2xl"
+              className="text-center font-bold text-2xl pb-3"
             >
-              Crear nuevo usuario
+              { title }
             </DialogTitle>
             {children}
           </DialogPanel>

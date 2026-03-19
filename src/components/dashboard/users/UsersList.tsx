@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { SquarePen, Trash2 } from "lucide-react";
 import type { UserBody } from "../../../types/user";
 import type { UserRole } from "../../../types/rol";
@@ -7,16 +8,51 @@ type UsersListProps = {
   rolList: UserRole[]
   setUserToEdit: (user: UserBody) => void
   deleteUser: (user: UserBody) => void
+  setShowModalUser: (show: boolean) => void
 }
 
 export default function UsersList({
   usersList,
   rolList,
   setUserToEdit,
-  deleteUser
+  deleteUser,
+  setShowModalUser
 }: UsersListProps) {
+
+  const [search, setSearch] = useState("");
+
+  const filteredList = useMemo(() => {
+    if (!search) return usersList;
+    return usersList.filter(user =>
+      user.email.includes(search) ||
+      user.name.includes(search) ||
+      user.lastName.includes(search) ||
+      user.phoneNumber.includes(search)
+    );
+  }, [usersList, search]);
+
+
   return (
     <>
+      <div className="grid md:grid-cols-2 gap-3 pb-5">
+        <div className="flex h-10 gap-1">
+          <input
+            type="text"
+            placeholder="Buscar usuario..."
+            className="bg-white px-5 rounded-md outline-0"
+            onChange={({ target }) => setSearch(target.value)}
+          />
+        </div>
+        <div className="flex md:justify-end">
+          <button
+            className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-md"
+            onClick={() => setShowModalUser(true)}
+          >
+            + Agregar usuario
+          </button>
+        </div>
+      </div>
+
       <table className="w-full rounded-sm shadow table-auto border-collapse text-sm">
         <thead className="text-left text-gray-400 bg-gray-100 uppercase">
           <tr>
@@ -28,8 +64,8 @@ export default function UsersList({
           </tr>
         </thead>
         <tbody>
-          {usersList.length > 0 &&
-            usersList.map(user => {
+          {filteredList.length > 0 &&
+            filteredList.map(user => {
               const userRole = rolList.find(rol => rol.id === user.rolId);
               return (
                 <tr

@@ -75,6 +75,7 @@ export default function UsersMain() {
         <Suspense fallback={<></>}>
           <CreateUserModal
             isOpen={showModalUser}
+            title={currentUser?.id ? 'Actualizar usuario' : 'Crear nuevo usuario'}
             close={() => {
               setCurrentUser(null);
               setShowModalUser(false);
@@ -108,27 +109,10 @@ export default function UsersMain() {
       )}
 
       <div className="text-black p-5">
-        <div className="grid md:grid-cols-2 gap-3 pb-5">
-          <div className="flex h-10 gap-1">
-            <input
-              type="text"
-              placeholder="Buscar usuario..."
-              className="bg-white px-5 rounded-md outline-0"
-            />
-          </div>
-          <div className="flex md:justify-end">
-            <button
-              className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-md"
-              onClick={() => setShowModalUser(true)}
-            >
-              + Agregar usuario
-            </button>
-          </div>
-        </div>
-
         <UsersList
           usersList={userList}
           rolList={rolList}
+          setShowModalUser={setShowModalUser}
           setUserToEdit={(user) => {
             setCurrentUser(user);
             setShowModalUser(true);
