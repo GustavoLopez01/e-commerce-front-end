@@ -9,7 +9,7 @@ export default function Dashboard({
       <div className="w-full flex relative">
         <Sidebar />
         <Nabvar />
-        <div className="w-full flex flex-col pt-16">
+        <div className="w-full flex flex-col pt-18 px-6">
           <Outlet />
         </div>
       </div>

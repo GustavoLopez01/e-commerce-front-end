@@ -27,6 +27,12 @@ export const DASHBOARD_ROUTES = [
     path: "/dashboard/profile",
     icon: "profile"
   },
+  {
+    label: "Catálogos",
+    value: "catalogues",
+    path: "/dashboard/catalogues",
+    icon: "list"
+  },
 ];
 
 export const SALE_ROUTES = [

@@ -5,6 +5,7 @@ import ProductsList from "../components/dashboard/products/ProductsList";
 import ProfileUser from "../components/dashboard/profile/ProfileUser";
 import UsersMain from "../components/dashboard/users/UsersMain";
 import CustomersMain from "../components/dashboard/customers/CustomersMain";
+import CatalogueMain from "../components/dashboard/catalogues/CatalogueMain";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "clients",
         Component: CustomersMain
+      },
+      {
+        path: "catalogues",
+        Component: CatalogueMain
       }
     ]
   }

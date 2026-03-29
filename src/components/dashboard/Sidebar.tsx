@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import {
   ChartColumnDecreasing,
+  List,
   LogOut,
   PackageSearch,
   ShoppingBasket,
@@ -50,6 +51,10 @@ const renderIcon = (icon: string) => {
       return (
         <ChartColumnDecreasing className="text-slate-500" />
       )
+    case "list":
+      return (
+        <List className="text-slate-500" />
+      )
     default:
       return (
         <PackageSearch className="text-slate-500" />
@@ -64,7 +69,7 @@ export default function Sidebar() {
     <>
       <aside
         className={
-          `bg-white min-h-screen ${showFull ? 'w-80' : 'w-30'} 
+          `bg-white min-h-screen ${showFull ? 'min-w-72' : 'w-30'} 
             top-0 text-black flex flex-col pb-6 pt-15`
         }
       >

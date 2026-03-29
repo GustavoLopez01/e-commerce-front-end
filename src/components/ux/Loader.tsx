@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 type LoaderProps = {
-  width: string
-  height: string
-  color: string
+  width?: string
+  height?: string
+  color?: string
 }
 
 const LoaderComponent = styled.span<LoaderProps>`
@@ -28,9 +28,9 @@ const LoaderComponent = styled.span<LoaderProps>`
 `;
 
 export default function Loader({
-  width,
-  height,
-  color
+  width = "10px",
+  height = "10px",
+  color = "oklch(48.8% 0.243 264.376)"
 }: LoaderProps) {
   return (
     <LoaderComponent
