@@ -13,7 +13,7 @@ function App() {
           pt: Tailwind
         }}
       >
-        <div className="w-full h-screen">
+        <div className="w-screen h-screen">
           <RouterProvider router={router} />
           <ToastContainer
             position="top-right"

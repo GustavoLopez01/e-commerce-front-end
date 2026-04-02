@@ -17,7 +17,7 @@ export default function SearchProducts({
 
   return (
     <>
-      <div className="px-6 py-5 grid md:grid-cols-4 gap-4 shadow-md rounded-md">
+      <div className="bg-white px-6 py-5 grid md:grid-cols-4 gap-4 shadow-md rounded-md">
         <input
           className="text-black md:col-span-2 px-4 py-2 border border-gray-300 rounded-md outline-0"
           type="text"
