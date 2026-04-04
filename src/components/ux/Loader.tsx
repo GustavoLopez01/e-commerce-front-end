@@ -4,12 +4,13 @@ type LoaderProps = {
   width?: string
   height?: string
   color?: string
+  borderWidth?: number
 }
 
 const LoaderComponent = styled.span<LoaderProps>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
-  border: 2px solid;
+  border: ${({ borderWidth }) => borderWidth}px solid;
   border-color: ${({ color }) => color} transparent;
   border-radius: 50%;
   display: inline-block;
@@ -30,13 +31,15 @@ const LoaderComponent = styled.span<LoaderProps>`
 export default function Loader({
   width = "10px",
   height = "10px",
-  color = "oklch(48.8% 0.243 264.376)"
+  color = "oklch(48.8% 0.243 264.376)",
+  borderWidth = 2,
 }: LoaderProps) {
   return (
     <LoaderComponent
       width={width}
       height={height}
       color={color}
+      borderWidth={borderWidth}
     />
   )
 }

@@ -35,7 +35,7 @@ export default function Nabvar() {
         </h3>
 
         <div className="flex justify-end">
-          <ContainerUserInformation className="cursor-pointer flex items-center justify-center gap-3">
+          <ContainerUserInformation>
             <User className="text-gray-500 size-6" />
             {userStore?.name}
             <LogOut
@@ -62,7 +62,11 @@ const MenuIcon = styled(Menu)`
 `
 
 const ContainerUserInformation = styled.div`
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  
   @media (max-width: 1024px) {
     display: none;
   }

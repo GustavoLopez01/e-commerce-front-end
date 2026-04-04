@@ -1,9 +1,11 @@
-import { useMemo, useState } from "react";
-import { SquarePen, Trash2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { formatCurrency } from "../../helpers/string-functions";
+import { api_getImageByProductId } from "../../api/products/api_product";
 import SearchProducts from "./SearchProducts";
+import { SquarePen, Trash2 } from "lucide-react";
 import type { Product } from "../../types/product";
 import type { ProductCategory } from "../../types/productCategory";
-import { formatCurrency } from "../../helpers/string-functions";
+import Loader from "../ux/Loader";
 
 type TableProductsProps = {
   products: Product[]
@@ -54,7 +56,7 @@ export default function TableProducts({
           </thead>
           <tbody>
             {productsToShow.length > 0 &&
-              productsToShow.map(product => {
+              productsToShow.map((product) => {
                 const categoryName = categoriesList.find(category =>
                   category.id === product.categoryId
                 )?.name ?? '';
@@ -65,11 +67,9 @@ export default function TableProducts({
                   >
                     <td>
                       <div className="flex items-center min-w-52 gap-1 pl-4">
-                        <img
-                          className="rounded-md"
-                          src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&h=500&fit=crop"
-                          width={50}
-                          height={50}
+                        <RenderImage
+                          id={product.id}
+                          altImage={product.name}
                         />
                         <p className="flex flex-col pl-2">
                           {product.name}
@@ -107,5 +107,45 @@ export default function TableProducts({
         </table>
       </div>
     </>
+  )
+}
+
+const RenderImage = ({
+  id,
+  altImage
+}: {
+  id: Product['id'],
+  altImage: string
+}) => {
+  const [productImage, setProductImage] = useState("")
+
+  useEffect(() => {
+    if (id) {
+      api_getImageByProductId(id).then(response => {
+        if (response) {
+          setProductImage(URL.createObjectURL(response))
+        }
+      });
+    }
+  }, [id]);
+
+  if (!productImage) {
+    return (
+      <Loader
+        width="20px"
+        height="20px"
+        borderWidth={1}
+      />
+    )
+  }
+
+  return (
+    <img
+      className="rounded-md"
+      src={productImage}
+      alt={altImage ?? 'product image'}
+      width={50}
+      height={50}
+    />
   )
 }

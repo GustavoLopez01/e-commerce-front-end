@@ -121,7 +121,10 @@ export default function ProductsList() {
                 setProductToDelete(product);
                 setShowDeleteModal(true);
               }}
-              setShowModal={setShowModal}
+              setShowModal={(value) => {
+                setProductToEdit(null);
+                setShowModal(value);
+              }}
               setProductToEdit={(product) => {
                 setProductToEdit(product);
                 setShowModal(true);
