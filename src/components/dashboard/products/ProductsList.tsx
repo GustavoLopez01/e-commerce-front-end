@@ -10,8 +10,10 @@ import DeleteModal from "../../modal/DeleteModal";
 import ProductForm from "./ProductForm";
 import Header from "../Header";
 import TableProducts from "../TableProducts";
+import Loader from "../../ux/Loader";
 import type { Product } from "../../../types/product";
 import type { ProductCategory } from "../../../types/productCategory";
+import HeaderSection from "../HeaderSection";
 
 export default function ProductsList() {
   const [productsList, setProductsList] = useState<Product[]>([]);
@@ -20,6 +22,7 @@ export default function ProductsList() {
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleUpdateProductsList = (product: Product) => {
     let updateProducts = [];
@@ -57,13 +60,17 @@ export default function ProductsList() {
     }
   }
 
+  const handleLoad = async () => {
+    setIsLoading(true);
+    const products = await api_getAllProducts();
+    const categories = await api_getAllCategories();
+    if (products?.success) setProductsList(products.products);
+    if (categories?.success) setCategoriesList(categories.categories);
+    setIsLoading(false);
+  }
+
   useEffect(() => {
-    api_getAllProducts().then(response => {
-      setProductsList(response?.products ?? []);
-    });
-    api_getAllCategories().then(response => {
-      setCategoriesList(response?.categories ?? [])
-    });
+    handleLoad();
   }, []);
 
   return (
@@ -96,25 +103,37 @@ export default function ProductsList() {
         </Suspense>
       )}
 
-      <div className="w-full flex justify-center">
-        <div className="w-full flex flex-col px-6">
-          <Header
-            products={productsList}
+      <div className={`w-full flex flex-col justify-center 
+          items-center ${isLoading ? 'h-full' : ''}`}>
+        {isLoading ? (
+          <Loader
+            width="30px"
+            height="30px"
           />
-          <TableProducts
-            products={productsList}
-            categoriesList={categoriesList ?? []}
-            deleteProduct={(product: Product) => {
-              setProductToDelete(product);
-              setShowDeleteModal(true);
-            }}
-            setShowModal={setShowModal}
-            setProductToEdit={(product) => {
-              setProductToEdit(product);
-              setShowModal(true);
-            }}
-          />
-        </div>
+        ) : (
+          <div className="w-full flex flex-col">
+            <HeaderSection title="Gestiona tus productos" />
+            <Header
+              products={productsList}
+            />
+            <TableProducts
+              products={productsList}
+              categoriesList={categoriesList ?? []}
+              deleteProduct={(product: Product) => {
+                setProductToDelete(product);
+                setShowDeleteModal(true);
+              }}
+              setShowModal={(value) => {
+                setProductToEdit(null);
+                setShowModal(value);
+              }}
+              setProductToEdit={(product) => {
+                setProductToEdit(product);
+                setShowModal(true);
+              }}
+            />
+          </div>
+        )}
       </div>
     </>
   )

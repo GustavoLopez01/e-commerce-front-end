@@ -43,7 +43,7 @@ export default function Login() {
 
   return (
     <div className="h-full flex justify-center items-center">
-      <div className="min-w-md min-h-20 shadow-2xl rounded-md flex flex-col justify-center text-black bg-white">
+      <div className="min-w-md shadow-2xl rounded-md flex flex-col justify-center text-black bg-white">
         <div className="flex flex-col justify-center items-center pt-5">
           <div className="w-16 h-16 flex justify-center items-center bg-blue-600 rounded-full">
             <Package className="text-white" />

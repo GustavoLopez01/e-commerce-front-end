@@ -31,7 +31,7 @@ export default function Card({
   iconColor
 }: CardProps) {
   return (
-    <div className="flex items-center justify-between px-6 py-4 text-black shadow rounded-xl">
+    <div className="bg-white flex items-center justify-between px-6 py-4 text-black shadow rounded-xl">
       <p className="flex flex-col gap-1 text-[14px]">
         {title}
         <span className="font-bold text-[30px]">

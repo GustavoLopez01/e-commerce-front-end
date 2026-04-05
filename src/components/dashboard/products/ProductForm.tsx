@@ -1,6 +1,7 @@
-import type { SubmitEvent } from "react";
+import { useEffect, useState, type SubmitEvent } from "react";
 import {
   api_createProduct,
+  api_getImageByProductId,
   api_updateProduct
 } from "../../../api/products/api_product";
 import { errorToast, successToast } from "../../../toast";
@@ -22,6 +23,9 @@ export default function ProductForm({
   close
 }: ProductFormProps) {
 
+  const [file, setFile] = useState<File | null>(null);
+  const [currentImage, setCurrentImage] = useState<any>(null);
+
   const handleSave = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -31,8 +35,7 @@ export default function ProductForm({
     const categoryId = data.get("categoryId") ? Number(data.get("categoryId")) : 0;
     const quantity = data.get("quantity") ? Number(data.get("quantity")) : 0;
     const price = data.get("price") ? Number(data.get("price")) : 0;
-    // const image = data.get("image") ? String(data.get("image")) : "";
-    const image = "imagen";
+    const image = product?.image ?? file?.name ?? "";
 
     const body: CreateProduct = {
       name,
@@ -40,7 +43,7 @@ export default function ProductForm({
       categoryId,
       quantity,
       price,
-      image
+      image,
     }
 
     const isValid = ProductSchema.safeParse(body);
@@ -53,9 +56,9 @@ export default function ProductForm({
 
     let response = null;
     if (product?.id) {
-      response = await api_updateProduct(isValid.data, product?.id)
+      response = await api_updateProduct(isValid.data, product?.id, file)
     } else {
-      response = await api_createProduct(isValid.data);
+      response = await api_createProduct(isValid.data, file);
     }
 
     if (!response?.success && response?.message) {
@@ -67,6 +70,20 @@ export default function ProductForm({
     successToast('Producto actualizado correctamente.');
     close();
   }
+
+  const handleGetImage = async () => {
+    if (product?.id) {
+      const response = await api_getImageByProductId(product?.id);
+      if (response) {
+        const url = URL.createObjectURL(response);
+        setCurrentImage(url);
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (product?.id) handleGetImage();
+  }, [product?.id]);
 
   return (
     <>
@@ -169,23 +186,64 @@ export default function ProductForm({
           </div>
         </div>
 
-        <label
-          className="flex flex-1 justify-center py-3 bg-gray-100 font-bold cursor-pointer border border-dashed border-gray-300"
-          htmlFor="image"
-        >
-          Selecciona un archivo
-          <input
-            type="file"
-            id="image"
-            name="image"
-            className="hidden"
-          />
-        </label>
+        {!currentImage && (
+          <label
+            className="flex flex-1 justify-center py-3 bg-gray-100 font-bold cursor-pointer border border-dashed border-gray-300"
+            htmlFor="image"
+          >
+            Selecciona un archivo
+            <input
+              type="file"
+              id="image"
+              name="image"
+              className="hidden"
+              accept=".png,.jpg,.jpeg"
+              onChange={({ target }) => {
+                if (target?.files?.[0]) {
+                  setFile(target?.files?.[0]);
+                  setCurrentImage(URL.createObjectURL(target?.files?.[0]));
+                }
+              }}
+            />
+          </label>
+        )}
+
+        {currentImage && (
+          <div className="relative">
+            <img
+              className="w-full h-60 object-cover"
+              src={currentImage}
+            />
+
+            <div className="w-full px-5 absolute bottom-5">
+              <label
+                className="text-black block text-center rounded-full px-2 py-2 font-family-inter-bold bg-white/90 w-full cursor-pointer hover:bg-white/80"
+                htmlFor="loadImage"
+              >
+                Cambiar imagen
+                <input
+                  type="file"
+                  id="loadImage"
+                  name="loadImage"
+                  className="hidden"
+                  accept=".png,.jpg,.jpeg"
+                  onChange={({ target }) => {
+                    if (target?.files?.[0]) {
+                      setFile(target?.files?.[0]);
+                      setCurrentImage(URL.createObjectURL(target?.files?.[0]));
+                    }
+                  }}
+                />
+              </label>
+            </div>
+
+          </div>
+        )}
 
         <button
-          className="w-full py-2 rounded-md font-bold cursor-pointer bg-blue-500 text-white"
+          className="w-full py-2 rounded-md font-family-inter-bold cursor-pointer bg-blue-500 text-white"
         >
-          Guardar
+          {product?.id ? 'Actualizar' : 'Guardar' }
         </button>
       </form>
     </>

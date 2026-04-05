@@ -1,14 +1,17 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import styled from "styled-components";
 import { getUserByToken } from "../../api/users/api_user";
 import { useUserStore } from "../../store/useUser";
 import { removeCookie } from "../../helpers/cookie";
-import { LogOut, User } from "lucide-react";
+import { LogOut, Menu, User } from "lucide-react";
 
 export default function Nabvar() {
   const navigate = useNavigate();
   const userStore = useUserStore(state => state.user);
   const updateUser = useUserStore(state => state.updateUser);
+  const showSidebar = useUserStore(state => state.showSidebar);
+  const setShowSidebar = useUserStore(state => state.setShowSidebar);
 
   const handleLogout = async () => {
     removeCookie('userToken');
@@ -32,16 +35,40 @@ export default function Nabvar() {
         </h3>
 
         <div className="flex justify-end">
-          <div className="cursor-pointer flex items-center justify-center gap-3">
+          <ContainerUserInformation>
             <User className="text-gray-500 size-6" />
             {userStore?.name}
             <LogOut
               className="text-gray-500 size-5"
               onClick={handleLogout}
             />
-          </div>
+          </ContainerUserInformation>
+
+          <MenuIcon
+            className="text-gray-500 cursor-pointer"
+            onClick={() => setShowSidebar(!showSidebar)}
+          />
         </div>
       </div>
     </nav>
   )
 }
+
+const MenuIcon = styled(Menu)`
+  display: none;
+  @media (max-width: 1024px) {
+    display: block; 
+  }
+`
+
+const ContainerUserInformation = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  
+  @media (max-width: 1024px) {
+    display: none;
+  }
+
+`

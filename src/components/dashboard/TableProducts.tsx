@@ -1,9 +1,11 @@
-import { useMemo, useState } from "react";
-import { SquarePen, Trash2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { formatCurrency } from "../../helpers/string-functions";
+import { api_getImageByProductId } from "../../api/products/api_product";
 import SearchProducts from "./SearchProducts";
+import Loader from "../ux/Loader";
+import { SquarePen, Trash2 } from "lucide-react";
 import type { Product } from "../../types/product";
 import type { ProductCategory } from "../../types/productCategory";
-import { formatCurrency } from "../../helpers/string-functions";
 
 type TableProductsProps = {
   products: Product[]
@@ -41,7 +43,7 @@ export default function TableProducts({
         setShowModal={() => setShowModal(true)}
       />
 
-      <div className="mt-3 text-black">
+      <div className="mt-3 text-black bg-white overflow-x-auto">
         <table className="w-full rounded-sm shadow table-auto border-collapse text-sm">
           <thead className="text-left text-gray-400 bg-gray-100 uppercase">
             <tr>
@@ -54,7 +56,7 @@ export default function TableProducts({
           </thead>
           <tbody>
             {productsToShow.length > 0 &&
-              productsToShow.map(product => {
+              productsToShow.map((product) => {
                 const categoryName = categoriesList.find(category =>
                   category.id === product.categoryId
                 )?.name ?? '';
@@ -64,12 +66,10 @@ export default function TableProducts({
                     className="h-20"
                   >
                     <td>
-                      <div className="flex items-center gap-1 pl-4">
-                        <img
-                          className="rounded-md"
-                          src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&h=500&fit=crop"
-                          width={50}
-                          height={50}
+                      <div className="flex items-center min-w-52 gap-1 pl-4">
+                        <RenderImage
+                          id={product.id}
+                          altImage={product.name}
                         />
                         <p className="flex flex-col pl-2">
                           {product.name}
@@ -79,17 +79,17 @@ export default function TableProducts({
                         </p>
                       </div>
                     </td>
-                    <td className="text-center">
+                    <td className="text-center min-w-32">
                       {categoryName}
                     </td>
-                    <td className="text-center">
+                    <td className="text-center min-w-32">
                       {formatCurrency(product.price)}
                     </td>
-                    <td className="text-center">
+                    <td className="text-center min-w-32">
                       {product.quantity}
                     </td>
                     <td>
-                      <div className="flex gap-3 justify-center items-center">
+                      <div className="flex gap-3 min-w-32 justify-center items-center">
                         <SquarePen
                           className="text-blue-500 cursor-pointer size-5"
                           onClick={() => setProductToEdit(product)}
@@ -107,5 +107,45 @@ export default function TableProducts({
         </table>
       </div>
     </>
+  )
+}
+
+const RenderImage = ({
+  id,
+  altImage
+}: {
+  id: Product['id'],
+  altImage: string
+}) => {
+  const [productImage, setProductImage] = useState("")
+
+  useEffect(() => {
+    if (id) {
+      api_getImageByProductId(id).then(response => {
+        if (response) {
+          setProductImage(URL.createObjectURL(response))
+        }
+      });
+    }
+  }, [id]);
+
+  if (!productImage) {
+    return (
+      <Loader
+        width="20px"
+        height="20px"
+        borderWidth={1}
+      />
+    )
+  }
+
+  return (
+    <img
+      className="rounded-md"
+      src={productImage}
+      alt={altImage ?? 'product image'}
+      width={50}
+      height={50}
+    />
   )
 }

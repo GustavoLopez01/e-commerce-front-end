@@ -32,7 +32,7 @@ export default function DeleteModal({
         className="fixed inset-0 bg-black/30 backdrop-blur-sm"
       />
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div className="flex min-w-3xl min-h-full items-center justify-center p-4">
+        <div className="flex md:min-w-3xl min-h-full items-center justify-center p-4">
           <DialogPanel
             transition
             className="w-full max-w-md rounded-xl text-black bg-white p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
