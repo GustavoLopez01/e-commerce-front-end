@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { formatCurrency } from "../../helpers/string-functions";
 import { api_getImageByProductId } from "../../api/products/api_product";
 import SearchProducts from "./SearchProducts";
+import Loader from "../ux/Loader";
 import { SquarePen, Trash2 } from "lucide-react";
 import type { Product } from "../../types/product";
 import type { ProductCategory } from "../../types/productCategory";
-import Loader from "../ux/Loader";
 
 type TableProductsProps = {
   products: Product[]

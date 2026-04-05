@@ -53,55 +53,57 @@ export default function UsersList({
         </div>
       </div>
 
-      <table className="w-full rounded-sm shadow table-auto border-collapse text-sm">
-        <thead className="text-left text-gray-400 bg-gray-100 uppercase">
-          <tr>
-            <th className="font-normal text-center py-3 pl-4 rounded-tl-sm">Nombre</th>
-            <th className="font-normal text-center">Correo electrónico</th>
-            <th className="font-normal text-center">Telefono</th>
-            <th className="font-normal text-center">rol</th>
-            <th className="font-normal text-center rounded-tr-md">acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredList.length > 0 &&
-            filteredList.map(user => {
-              const userRole = rolList.find(rol => rol.id === user.rolId);
-              return (
-                <tr
-                  key={user.id}
-                  className="text-center h-15"
-                >
-                  <td>
-                    {user.name} {user.lastName}
-                  </td>
-                  <td>
-                    {user.email}
-                  </td>
-                  <td>
-                    {user.phoneNumber}
-                  </td>
-                  <td>
-                    {userRole?.name}
-                  </td>
-                  <td>
-                    <div className="flex gap-3 justify-center items-center">
-                      <SquarePen
-                        className="text-blue-500 cursor-pointer size-5"
-                        onClick={() => setUserToEdit(user)}
-                      />
-                      <Trash2
-                        className="text-red-500 cursor-pointer size-5"
-                        onClick={() => deleteUser(user)}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      </table>
+      <div className="w-full overflow-x-auto">
+        <table className="rounded-sm shadow table-auto border-collapse text-sm">
+          <thead className="text-left text-gray-400 bg-gray-100 uppercase">
+            <tr>
+              <th className="font-normal text-center py-3 pl-4 rounded-tl-sm">Nombre</th>
+              <th className="font-normal text-center">Correo electrónico</th>
+              <th className="font-normal text-center">Telefono</th>
+              <th className="font-normal text-center">rol</th>
+              <th className="font-normal text-center rounded-tr-md">acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredList.length > 0 &&
+              filteredList.map(user => {
+                const userRole = rolList.find(rol => rol.id === user.rolId);
+                return (
+                  <tr
+                    key={user.id}
+                    className="text-center h-15"
+                  >
+                    <td>
+                      {user.name} {user.lastName}
+                    </td>
+                    <td>
+                      {user.email}
+                    </td>
+                    <td>
+                      {user.phoneNumber}
+                    </td>
+                    <td>
+                      {userRole?.name}
+                    </td>
+                    <td>
+                      <div className="flex gap-3 justify-center items-center">
+                        <SquarePen
+                          className="text-blue-500 cursor-pointer size-5"
+                          onClick={() => setUserToEdit(user)}
+                        />
+                        <Trash2
+                          className="text-red-500 cursor-pointer size-5"
+                          onClick={() => deleteUser(user)}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </table>
+      </div>
     </>
   )
 }

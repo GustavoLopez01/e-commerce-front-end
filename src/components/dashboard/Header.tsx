@@ -41,10 +41,6 @@ export default function Header({
   return (
     <>
       <div className="my-5">
-        <h2 className="text-black font-bold text-2xl">
-          Gestiona tu inventario
-        </h2>
-
         <div className="grid gap-3 md:grid-cols-3">
           {informationHeader.map(opt => (
             <Card
