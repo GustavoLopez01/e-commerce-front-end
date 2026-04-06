@@ -13,8 +13,6 @@ export default function Table({
 }: TableProps) {
 
   const UpdateButton = (rol: UserRole) => {
-    console.log(rol);
-
     return (
       <div className="flex gap-2">
         <SquarePen

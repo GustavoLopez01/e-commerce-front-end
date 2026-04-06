@@ -45,7 +45,7 @@ export default function UsersList({
         </div>
         <div className="flex md:justify-end">
           <button
-            className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-md"
+            className="bg-blue-500 cursor-pointer font-family-inter-bold text-white px-5 py-2 rounded-md"
             onClick={() => setShowModalUser(true)}
           >
             + Agregar usuario
@@ -54,7 +54,7 @@ export default function UsersList({
       </div>
 
       <div className="w-full overflow-x-auto">
-        <table className="rounded-sm shadow table-auto border-collapse text-sm">
+        <table className="w-full rounded-sm shadow table-auto border-collapse text-sm">
           <thead className="text-left text-gray-400 bg-gray-100 uppercase">
             <tr>
               <th className="font-normal text-center py-3 pl-4 rounded-tl-sm">Nombre</th>
@@ -73,16 +73,16 @@ export default function UsersList({
                     key={user.id}
                     className="text-center h-15"
                   >
-                    <td>
+                    <td className="min-w-32">
                       {user.name} {user.lastName}
                     </td>
-                    <td>
+                    <td className="min-w-32">
                       {user.email}
                     </td>
-                    <td>
+                    <td className="min-w-32">
                       {user.phoneNumber}
                     </td>
-                    <td>
+                    <td className="min-w-32">
                       {userRole?.name}
                     </td>
                     <td>

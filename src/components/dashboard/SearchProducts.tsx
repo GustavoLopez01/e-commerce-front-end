@@ -41,7 +41,7 @@ export default function SearchProducts({
         </select>
 
         <button
-          className="bg-blue-600 cursor-pointer flex items-center justify-center gap-1 text-white text-sm font-bold px-4 py-1 rounded-full"
+          className="bg-blue-600 cursor-pointer flex items-center justify-center gap-1 text-white text-sm font-family-inter-bold px-4 py-1 rounded-full"
           onClick={setShowModal}
         >
           <Plus size={16} color="white" />

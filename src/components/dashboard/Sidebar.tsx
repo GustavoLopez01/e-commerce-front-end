@@ -28,11 +28,13 @@ type Route = {
 
 type RenderRoutesProps = {
   routes: Route[]
+  path: string
   showFull: boolean
 }
 
 const RenderRoutes = ({
   routes,
+  path,
   showFull
 }: RenderRoutesProps) => {
   return (
@@ -43,10 +45,15 @@ const RenderRoutes = ({
           className="gap-2"
         >
           <Link
-            className="flex font-medium justify-start items-center gap-7"
+            className={`flex font-medium justify-start items-center gap-7 
+              ${route.path === path ? 'text-blue-600 font-family-inter-bold' : ''}
+              `}
             to={route.path}
           >
-            {renderIcon(route.icon)}
+            {renderIcon(
+              route.icon,
+              route.path === path
+            )}
             {showFull && route.label}
           </Link>
         </div>
@@ -55,35 +62,36 @@ const RenderRoutes = ({
   )
 }
 
-const renderIcon = (icon: string) => {
+const renderIcon = (icon: string, isCurrentPath: boolean) => {
+  const styleClass = isCurrentPath ? 'text-blue-600' : 'text-slate-500'
   switch (icon) {
     case "profile":
       return (
-        <UserPen className="text-slate-500" />
+        <UserPen className={styleClass} />
       )
     case "users":
       return (
-        <UserCog className="text-slate-500" />
+        <UserCog className={styleClass} />
       )
     case "store":
       return (
-        <ShoppingBasket className="text-slate-500" />
+        <ShoppingBasket className={styleClass} />
       )
     case "customer":
       return (
-        <Users className="text-slate-500" />
+        <Users className={styleClass} />
       )
     case "chart":
       return (
-        <ChartColumnDecreasing className="text-slate-500" />
+        <ChartColumnDecreasing className={styleClass} />
       )
     case "list":
       return (
-        <List className="text-slate-500" />
+        <List className={styleClass} />
       )
     default:
       return (
-        <PackageSearch className="text-slate-500" />
+        <PackageSearch className={styleClass} />
       );
   }
 }
@@ -110,7 +118,7 @@ export default function Sidebar() {
     <>
       <SidebarComponent
         className={
-          `bg-white min-h-screen top-0 text-black flex flex-col pb-6 pt-15`
+          `bg-white shadow-xl z-1 min-h-screen top-0 text-black flex flex-col pb-6 pt-15`
         }
         $showSidebar={showSidebar}
       >
@@ -118,18 +126,21 @@ export default function Sidebar() {
           <h2 className="font-family-inter-bold">Dashboard</h2>
           <RenderRoutes
             routes={DASHBOARD_ROUTES}
+            path={location.pathname}
             showFull={true}
           />
 
           <h2 className="font-family-inter-bold">Ventas</h2>
           <RenderRoutes
             routes={SALE_ROUTES}
+            path={location.pathname}
             showFull={true}
           />
 
           <h2 className="font-family-inter-bold">Clientes</h2>
           <RenderRoutes
             routes={CUSTOMER_ROUTES}
+            path={location.pathname}
             showFull={true}
           />
         </div>

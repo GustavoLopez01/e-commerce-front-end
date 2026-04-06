@@ -1,4 +1,4 @@
-import { useState, type SubmitEvent } from "react";
+import { useEffect, useState, type SubmitEvent } from "react";
 import { LockKeyhole, Mail, Package } from "lucide-react";
 import { login } from "../../api/auth/api_login";
 import { errorToast } from "../../toast";
@@ -7,7 +7,7 @@ import {
   LoginSchema,
   type LoginType
 } from "../../schema/login.schema";
-import { addCookie } from "../../helpers/cookie";
+import { addCookie, getCookie } from "../../helpers/cookie";
 
 export default function Login() {
   const [loggingIn, setLoggingIn] = useState(false);
@@ -40,6 +40,12 @@ export default function Login() {
       errorToast(response?.message || 'Ocurrió un error al inciar sesión.')
     }
   }
+
+  useEffect(() => {
+    if (getCookie('userToken')) {
+      window.location.href = "/dashboard";
+    }
+  }, []);
 
   return (
     <div className="h-full flex justify-center items-center">
