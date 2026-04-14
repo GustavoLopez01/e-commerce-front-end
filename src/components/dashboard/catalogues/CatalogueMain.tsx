@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import { TabView, TabPanel } from 'primereact/tabview';
 import { getAllRoles } from "../../../api/users/api_roles";
-import Table from "./Table";
+import { api_getAllCategories } from "../../../api/category-products/api_categoryProducts";
+import RolesTable from "./RolesTable";
 import Loader from "../../ux/Loader";
 import type { UserRole } from "../../../types/rol";
+import type { ProductCategory } from "../../../types/productCategory";
 
 type ContextTabPanelProps = {
   active?: boolean
@@ -13,12 +15,27 @@ type ContextTabPanelProps = {
 
 export default function CatalogueMain() {
   const [rolList, setRolList] = useState<UserRole[]>([]);
+  const [categoryList, setCategoryList] = useState<ProductCategory[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLoad = async () => {
     setIsLoading(true);
-    const responseRoles = await getAllRoles();
-    if (responseRoles?.success) setRolList(responseRoles.roles);
+    const promises =
+      [
+        getAllRoles(),
+        api_getAllCategories()
+      ] as const;
+
+    const [roles, categories] = await Promise.allSettled(promises);
+
+    if (roles.status === "fulfilled" && roles.value?.roles) {
+      setRolList(roles.value?.roles)
+    }
+
+    if (categories.status === "fulfilled" && categories.value?.categories) {
+      setCategoryList(categories.value.categories)
+    }
+
     setIsLoading(false);
   }
 
@@ -44,7 +61,7 @@ export default function CatalogueMain() {
           <TabView
             className="z-auto"
             pt={{
-              navContainer: { className: "bg-white" }
+              navContainer: { className: "bg-white border-0" }
             }}
           >
             <TabPanel header="Roles"
@@ -58,8 +75,9 @@ export default function CatalogueMain() {
                 },
               }}
             >
-              <Table
+              <RolesTable
                 rolList={rolList}
+                setRolList={setRolList}
               />
             </TabPanel>
 

@@ -6,6 +6,12 @@ export type UserRole = {
   description: string
 }
 
+export type NewUserRole = Omit<UserRole, 'id'>;
+
 export type ApiGetUserRolListResponse = ApiResponse & {
   roles: UserRole[]
+}
+
+export type ApiSaveRoleResponse = ApiResponse & {
+  role: UserRole
 }

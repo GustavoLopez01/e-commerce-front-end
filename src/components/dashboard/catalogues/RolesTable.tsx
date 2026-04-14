@@ -9,6 +9,7 @@ import RoleModal from '../../modal/RoleModal';
 import HeaderCatalogue from './HeaderCatalogue';
 import { SquarePen, Trash2 } from 'lucide-react';
 import type { UserRole } from '../../../types/rol';
+import Pagination from '../../pagination/Pagination';
 
 type TableProps = {
   rolList: UserRole[]
@@ -104,6 +105,7 @@ export default function RolesTable({
       )}
 
       <HeaderCatalogue
+        titleButton='Agregar rol'
         onClick={() => {
           setCurrentRole(null);
           setShowModalRole(true);
@@ -123,6 +125,8 @@ export default function RolesTable({
         <Column field="description" header="Descripción"></Column>
         <Column header="acciones" body={UpdateButton}></Column>
       </DataTable>
+
+      <Pagination />
     </>
   )
 }
