@@ -99,7 +99,7 @@ export default function RoleModal({
 
           <button
             type="submit"
-            className="bg-blue-600 text-white font-family-inter-bold py-2 px-4 rounded-full"
+            className="bg-blue-600 text-white font-family-inter-bold py-2 px-4 rounded-full cursor-pointer"
           >
             {role?.id ? 'Actualizar' : 'Guardar'}
           </button>

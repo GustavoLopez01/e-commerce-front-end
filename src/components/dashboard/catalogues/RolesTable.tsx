@@ -7,9 +7,10 @@ import { errorToast, successToast } from '../../../toast';
 import DeleteModal from '../../modal/DeleteModal';
 import RoleModal from '../../modal/RoleModal';
 import HeaderCatalogue from './HeaderCatalogue';
+import Pagination from '../../pagination/Pagination';
 import { SquarePen, Trash2 } from 'lucide-react';
 import type { UserRole } from '../../../types/rol';
-import Pagination from '../../pagination/Pagination';
+import type { PaginatorPageChangeEvent } from 'primereact/paginator';
 
 type TableProps = {
   rolList: UserRole[]
@@ -126,7 +127,13 @@ export default function RolesTable({
         <Column header="acciones" body={UpdateButton}></Column>
       </DataTable>
 
-      <Pagination />
+      <Pagination 
+        totalRecords={rolList.length}
+        rows={10}
+        onPageChange={(e: PaginatorPageChangeEvent) => { 
+          console.log(e.first);
+        }}
+      />
     </>
   )
 }

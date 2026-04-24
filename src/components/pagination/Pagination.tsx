@@ -1,29 +1,76 @@
-import { Paginator, type PaginatorPageChangeEvent } from "primereact/paginator";
 import { useState } from "react";
+import {
+  Paginator,
+  type PaginatorPageChangeEvent
+} from "primereact/paginator";
 
-export default function Pagination() {
-  const [first, setFirst] = useState<number>(0);
-  const [rows, setRows] = useState<number>(10);
+type PaginationProps = {
+  totalRecords: number
+  rows: number
+  rowsPerPageOptions?: number[]
+  onPageChange: (event: PaginatorPageChangeEvent) => void
+}
 
-  const onPageChange = (event: PaginatorPageChangeEvent) => {
-    setFirst(event.first);
-    setRows(event.rows);
-  }
+export default function Pagination({
+  totalRecords,
+  rows,
+  rowsPerPageOptions,
+  onPageChange
+}: PaginationProps) {
+  // const onPageChange = (event: PaginatorPageChangeEvent) => {
+  //   setFirst(event.first);
+  //   setRows(event.rows);
+  // }
+
   return (
     <>
       <div className="">
         <Paginator
-          first={first}
+          first={0}
           rows={rows}
-          totalRecords={120}
-          rowsPerPageOptions={[10, 20, 30]}
+          totalRecords={totalRecords}
+          // rowsPerPageOptions={[10, 20, 30]}
           onPageChange={onPageChange}
           pt={{
-            firstPageButton: () => ({
-              className: `
-                relative inline-flex items-center justify-center user-none overflow-hidden leading-none border-0 text-gray-500  min-w-[3rem] h-12 m-[0.143rem] rounded-md transition duration-200
-              `
-            }),
+            root(options) {
+              return {
+                ...options,
+                className: "flex flex-wrap mt-4"
+              }
+            },
+            firstPageButton(options) {
+              return {
+                ...options,
+                className: "cursor-pointer p-2 border rounded-l-md hover:bg-gray-100"
+              }
+            },
+            lastPageButton(options) {
+              return {
+                ...options,
+                className: "cursor-pointer p-2 border rounded-r-md hover:bg-gray-100"
+              }
+            },
+            pageButton(options) {
+              return {
+                ...options,
+                className: `
+                  cursor-pointer p-2 border hover:bg-gray-100
+                  ${options?.context?.active ? 'bg-blue-600 text-white' : 'bg-white text-black'}
+                `
+              }
+            },
+            prevPageButton(options) {
+              return {
+                ...options,
+                className: "cursor-pointer p-2 border hover:bg-gray-100"
+              }
+            },
+            nextPageButton(options) {
+              return {
+                ...options,
+                className: "cursor-pointer p-2 border hover:bg-gray-100"
+              }
+            },
           }}
         />
       </div>
