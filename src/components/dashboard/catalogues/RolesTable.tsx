@@ -50,7 +50,7 @@ export default function RolesTable({
   }
 
 
-  const UpdateButton = (rol: UserRole) => {
+  const ButtonActions = (rol: UserRole) => {
     return (
       <div className="flex gap-2">
         <SquarePen
@@ -124,7 +124,7 @@ export default function RolesTable({
       >
         <Column field="name" header="Nombre"></Column>
         <Column field="description" header="Descripción"></Column>
-        <Column header="acciones" body={UpdateButton}></Column>
+        <Column header="acciones" body={ButtonActions}></Column>
       </DataTable>
 
       <Pagination 

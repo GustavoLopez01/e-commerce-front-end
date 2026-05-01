@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { TabView, TabPanel } from 'primereact/tabview';
 import { getAllRoles } from "../../../api/users/api_roles";
 import { api_getAllCategories } from "../../../api/category-products/api_categoryProducts";
 import RolesTable from "./RolesTable";
+import CategoriesTable from "./CategoriesTable";
 import Loader from "../../ux/Loader";
 import type { UserRole } from "../../../types/rol";
 import type { ProductCategory } from "../../../types/productCategory";
@@ -91,9 +92,10 @@ export default function CatalogueMain() {
                 },
               }}
             >
-              <div>
-                Categoria
-              </div>
+              <CategoriesTable 
+                categoryList={categoryList}
+                setCategoryList={setCategoryList}
+              />
             </TabPanel>
           </TabView>
         )}
