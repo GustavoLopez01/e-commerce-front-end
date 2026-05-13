@@ -1,13 +1,13 @@
 import { create } from "zustand";
-import type { User } from "../types/user";
+import type { UserBody } from "../types/user";
 
 type State = {
-  user: User | null
+  user: UserBody | null
   showSidebar: boolean
 }
 
 type Action = {
-  updateUser: (user: User) => void
+  updateUser: (user: UserBody) => void
   setShowSidebar: (showSidebar: boolean) => void
 }
 

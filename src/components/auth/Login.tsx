@@ -42,9 +42,11 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (getCookie('userToken')) {
-      window.location.href = "/dashboard";
-    }
+    setTimeout(() => {
+      if (getCookie('userToken')) {
+        window.location.href = "/dashboard";
+      }
+    }, 1500)
   }, []);
 
   return (

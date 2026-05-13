@@ -6,6 +6,12 @@ export type ProductCategory = {
   description: string
 }
 
+export type SaveProductCategory = Omit<ProductCategory, 'id'>;
+
+export type ApiSaveCategory = ApiResponse & {
+  category: ProductCategory 
+};
+
 export type ApiGetProductCategoryResponse = ApiResponse & {
   categories: ProductCategory[]
 }

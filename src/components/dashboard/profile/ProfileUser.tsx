@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type SubmitEvent } from "react";
 import { useUserStore } from "../../../store/useUser";
 import { getAllRoles } from "../../../api/users/api_roles";
-import { errorToast } from "../../../toast";
+import { updateUser } from "../../../api/users/api_user";
+import { UserSchema } from "../../../schema/user.schema";
+import { errorToast, successToast } from "../../../toast";
+import HeaderSection from "../HeaderSection";
 import Loader from "../../ux/Loader";
 import type { UserRole } from "../../../types/rol";
-import HeaderSection from "../HeaderSection";
 
 export default function ProfileUser() {
   const userStore = useUserStore(state => state.user);
+  const updateUserStore = useUserStore(state => state.updateUser);
+
   const [rolList, setRolList] = useState<UserRole[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -19,6 +23,48 @@ export default function ProfileUser() {
     setIsLoading(false);
   }
 
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!userStore?.id) return;
+
+    const data = new FormData(e.currentTarget);
+    const name = data.get("name") ? data.get("name") : "";
+    const lastName = data.get("lastName") ? data.get("lastName") : "";
+    const password = data.get("password") ? data.get("password") : "";
+    const phoneNumber = data.get("phoneNumber") ? data.get("phoneNumber") : 0;
+    const email = data.get("email") ? data.get("email") : "";
+    const rolId = data.get("role") ? Number(data.get("role")) : 0;
+
+    const body = {
+      name,
+      lastName,
+      password,
+      phoneNumber,
+      email,
+      rolId
+    }
+
+    const isValid = UserSchema.safeParse(body);
+
+    if (!isValid.success) {
+      return isValid.error.issues.forEach(error =>
+        errorToast(error.message)
+      );
+    }
+
+    const response = await updateUser(userStore.id, isValid.data);
+
+    if (!response?.success && response?.message) {
+      return errorToast(response.message);
+    }
+
+    successToast('Perfil actualizado correctamente');
+    updateUserStore({
+      ...userStore,
+      ...response?.user
+    });
+  }
+
   useEffect(() => {
     handleLoad();
   }, []);
@@ -27,7 +73,7 @@ export default function ProfileUser() {
     <>
       {isLoading ? (
         <div className="h-full flex justify-center items-center">
-          <Loader 
+          <Loader
             width="30px"
             height="30px"
           />
@@ -38,6 +84,7 @@ export default function ProfileUser() {
           <form
             className="py-5 grid md:grid-cols-2 xl:grid-cols-3 gap-5 text-black"
             autoComplete="off"
+            onSubmit={handleSubmit}
           >
             <div className="flex flex-col gap-1">
               <label
@@ -81,8 +128,8 @@ export default function ProfileUser() {
                 Teléfono
               </label>
               <input
-                id="lastName"
-                name="lastName"
+                id="phoneNumber"
+                name="phoneNumber"
                 type="text"
                 className="w-full pl-5 pr-4 py-2 border bg-white border-gray-300 rounded-full outline-0"
                 placeholder="Teléfono"
@@ -132,6 +179,22 @@ export default function ProfileUser() {
                   ))
                 }
               </select>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="password"
+                className="px-1"
+              >
+                Correo electrónico
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                className="w-full pl-5 pr-4 py-2 border bg-white border-gray-300 rounded-full outline-0"
+                placeholder="Ingresa tu contraseña"
+              />
             </div>
 
             <div className="md:col-span-2 xl:col-span-3 flex justify-center">
