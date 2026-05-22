@@ -1,5 +1,5 @@
 
-import { Suspense, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { api_deleteRole } from '../../../api/users/api_roles';
@@ -25,6 +25,9 @@ export default function RolesTable({
   const [currentRole, setCurrentRole] = useState<UserRole | null>(null);
   const [showModalRole, setShowModalRole] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [page, setPage] = useState(1);
+  const [first, setFirst] = useState(0);
+  const [register, setRegister] = useState(10);
 
   const handleDelete = async () => {
     if (!currentRole?.id) return;
@@ -71,6 +74,12 @@ export default function RolesTable({
     )
   }
 
+  const filterRolList = useMemo(() => {
+    const copy = [...rolList];
+    const start = page === 1 ? 0 : ((page - 1) * register);
+    return copy.splice(start, register)
+  }, [rolList, register, page]);
+
   return (
     <>
       {showModalRole && (
@@ -107,6 +116,8 @@ export default function RolesTable({
 
       <HeaderCatalogue
         titleButton='Agregar rol'
+        register={register}
+        setRegister={setRegister}
         onClick={() => {
           setCurrentRole(null);
           setShowModalRole(true);
@@ -114,7 +125,7 @@ export default function RolesTable({
       />
 
       <DataTable
-        value={rolList}
+        value={filterRolList}
         tableStyle={{ minWidth: '50rem' }}
         pt={{
           table: { className: 'w-full text-sm text-left text-gray-500' },
@@ -127,11 +138,13 @@ export default function RolesTable({
         <Column header="acciones" body={ButtonActions}></Column>
       </DataTable>
 
-      <Pagination 
+      <Pagination
+        first={first}
         totalRecords={rolList.length}
-        rows={10}
-        onPageChange={(e: PaginatorPageChangeEvent) => { 
-          console.log(e.first);
+        rows={register}
+        onPageChange={(e: PaginatorPageChangeEvent) => {
+          setFirst(e.first);
+          setPage(e.page);
         }}
       />
     </>

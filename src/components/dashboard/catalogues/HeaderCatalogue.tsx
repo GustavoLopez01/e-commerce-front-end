@@ -3,11 +3,15 @@ import Selector from "../../pagination/Selector";
 
 type HeaderCatalogueProps = {
   titleButton: string
+  register: number
+  setRegister: (value: any) => void
   onClick: () => void
 }
 
 export default function HeaderCatalogue({
   titleButton,
+  register,
+  setRegister,
   onClick
 }: HeaderCatalogueProps) {
   return (
@@ -24,7 +28,8 @@ export default function HeaderCatalogue({
         </div>
 
         <Selector
-          currentRegister={10}
+          register={register}
+          setRegister={setRegister}
         />
       </div>
     </>

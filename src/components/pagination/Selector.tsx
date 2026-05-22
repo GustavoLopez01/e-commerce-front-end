@@ -7,11 +7,13 @@ const OPTIONS = [
 ];
 
 type SelectorProps = {
-  currentRegister: number
+  register: number
+  setRegister: (value: any) => void
 }
 
 export default function Selector({
-  currentRegister
+  register,
+  setRegister
 }: SelectorProps) {
   return (
     <>
@@ -22,8 +24,8 @@ export default function Selector({
 
         <select
           className="border rounded-md w-15 text-center p-2"
-          onChange={(e) => { }}
-          defaultValue={OPTIONS[0].value}
+          onChange={(e) => setRegister(+e.target.value)}
+          defaultValue={register}
         >
           {OPTIONS.map(option => (
             <option

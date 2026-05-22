@@ -6,6 +6,7 @@ import {
 type PaginationProps = {
   totalRecords: number
   rows: number
+  first: number
   rowsPerPageOptions?: number[]
   onPageChange: (event: PaginatorPageChangeEvent) => void
 }
@@ -13,19 +14,15 @@ type PaginationProps = {
 export default function Pagination({
   totalRecords,
   rows,
+  first,
   rowsPerPageOptions,
-  onPageChange
+  onPageChange,
 }: PaginationProps) {
-  // const onPageChange = (event: PaginatorPageChangeEvent) => {
-  //   setFirst(event.first);
-  //   setRows(event.rows);
-  // }
-
   return (
     <>
       <div className="">
         <Paginator
-          first={0}
+          first={first}
           rows={rows}
           totalRecords={totalRecords}
           // rowsPerPageOptions={[10, 20, 30]}

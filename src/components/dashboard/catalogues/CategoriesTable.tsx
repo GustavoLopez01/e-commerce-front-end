@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { api_deleteCategory } from "../../../api/category-products/api_categoryProducts";
@@ -23,6 +23,9 @@ export default function CategoriesTable({
   const [currentCategory, setCurrentCategory] = useState<ProductCategory | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [page, setPage] = useState(1);
+  const [first, setFirst] = useState(0);
+  const [register, setRegister] = useState(10);
 
   const handleDelete = async () => {
     if (!currentCategory?.id) return;
@@ -86,6 +89,12 @@ export default function CategoriesTable({
     )
   }
 
+  const filterCategoryList = useMemo(() => {
+    const copy = [...categoryList];
+    const start = page === 1 ? 0 : ((page - 1) * register);
+    return copy.splice(start, register)
+  }, [categoryList, register, page]);
+
   return (
     <>
       {showModal && (
@@ -121,6 +130,8 @@ export default function CategoriesTable({
 
       <HeaderCatalogue
         titleButton='Agregar categoría'
+        register={register}
+        setRegister={setRegister}
         onClick={() => {
           setCurrentCategory(null);
           setShowModal(true);
@@ -128,7 +139,7 @@ export default function CategoriesTable({
       />
 
       <DataTable
-        value={categoryList}
+        value={filterCategoryList}
         tableStyle={{ minWidth: '50rem' }}
         pt={{
           table: { className: 'w-full text-sm text-left text-gray-500' },
@@ -142,10 +153,12 @@ export default function CategoriesTable({
       </DataTable>
 
       <Pagination
+        first={first}
         totalRecords={categoryList.length}
-        rows={10}
+        rows={register}
         onPageChange={(e: PaginatorPageChangeEvent) => {
-          console.log(e.first);
+          setFirst(e.first);
+          setPage(e.page + 1)
         }}
       />
     </>
