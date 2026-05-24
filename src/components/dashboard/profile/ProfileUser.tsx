@@ -82,7 +82,7 @@ export default function ProfileUser() {
         <>
           <HeaderSection title="Mi perfil" />
           <form
-            className="py-5 grid md:grid-cols-2 xl:grid-cols-3 gap-5 text-black"
+            className="bg-white rounded-md px-3 py-5 mt-5 grid md:grid-cols-2 xl:grid-cols-3 gap-5 text-black"
             autoComplete="off"
             onSubmit={handleSubmit}
           >

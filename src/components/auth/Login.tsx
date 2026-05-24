@@ -44,7 +44,7 @@ export default function Login() {
   useEffect(() => {
     setTimeout(() => {
       if (getCookie('userToken')) {
-        window.location.href = "/dashboard";
+        // window.location.href = "/dashboard";
       }
     }, 1500)
   }, []);

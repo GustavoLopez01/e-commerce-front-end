@@ -92,7 +92,7 @@ export default function CategoriesTable({
   const filterCategoryList = useMemo(() => {
     const copy = [...categoryList];
     const start = page === 1 ? 0 : ((page - 1) * register);
-    return copy.splice(start, register)
+    return copy.splice(start, register);
   }, [categoryList, register, page]);
 
   return (

@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
+import { SquarePen, Trash2 } from "lucide-react";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 import { formatCurrency } from "../../helpers/string-functions";
 import { api_getImageByProductId } from "../../api/products/api_product";
 import SearchProducts from "./SearchProducts";
+import Pagination from "../pagination/Pagination";
 import Loader from "../ux/Loader";
-import { SquarePen, Trash2 } from "lucide-react";
+import type { PaginatorPageChangeEvent } from "primereact/paginator";
 import type { Product } from "../../types/product";
 import type { ProductCategory } from "../../types/productCategory";
 
@@ -25,14 +29,70 @@ export default function TableProducts({
 
   const [search, setSearch] = useState("");
   const [categoryId, setCategoryId] = useState(0);
+  const [page, setPage] = useState(1);
+  const [first, setFirst] = useState(0);
+  const [register, setRegister] = useState(10);
+
+  const ProductName = (product: Product) => {
+    return (
+      <div className="flex items-center min-w-52 gap-1 pl-4">
+        <RenderImage
+          id={product.id}
+          altImage={product.name}
+        />
+        <p className="flex flex-col pl-2">
+          {product.name}
+          <span>
+            {product.description}
+          </span>
+        </p>
+      </div>
+    )
+  }
+
+  const ProductCategory = (product: Product) => {
+    const categoryName = categoriesList.find(category =>
+      category.id === product.categoryId
+    )?.name ?? '';
+    return <> {categoryName} </>
+  }
+
+  const ProductPrice = (product: Product) => {
+    return <> {formatCurrency(product.price)}  </>
+  }
+
+  const ButtonActions = (product: Product) => {
+    return (
+      <div className="flex gap-2">
+        <SquarePen
+          className="text-blue-500 cursor-pointer size-5"
+          onClick={() => {
+            setProductToEdit(product);
+          }}
+        />
+        <Trash2
+          className="text-red-500 cursor-pointer size-5"
+          onClick={() => {
+            deleteProduct(product);
+          }}
+        />
+      </div>
+    )
+  }
+
+  const productsPerPage = useMemo(() => {
+    const copy = [...products];
+    const start = page === 1 ? 0 : ((page - 1) * register);
+    return copy.splice(start, register);
+  }, [products, page, register]);
 
   const productsToShow = useMemo(() => {
-    if (!search && !categoryId) return products;
-    return products.filter(product =>
+    if (!search && !categoryId) return productsPerPage;
+    return productsPerPage.filter(product =>
       (search && product.name.includes(search)) ||
       product.categoryId === categoryId
     )
-  }, [search, products, categoryId]);
+  }, [search, productsPerPage, categoryId]);
 
   return (
     <>
@@ -43,69 +103,32 @@ export default function TableProducts({
         setShowModal={() => setShowModal(true)}
       />
 
-      <div className="mt-3 text-black bg-white overflow-x-auto">
-        <table className="w-full rounded-sm shadow table-auto border-collapse text-sm">
-          <thead className="text-left text-gray-400 bg-gray-100 uppercase">
-            <tr>
-              <th className="font-normal py-3 pl-4 rounded-tl-sm">producto</th>
-              <th className="font-normal text-center">categoría</th>
-              <th className="font-normal text-center">precio</th>
-              <th className="font-normal text-center">stock</th>
-              <th className="font-normal text-center rounded-tr-md">acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {productsToShow.length > 0 &&
-              productsToShow.map((product) => {
-                const categoryName = categoriesList.find(category =>
-                  category.id === product.categoryId
-                )?.name ?? '';
-                return (
-                  <tr
-                    key={product.id}
-                    className="h-20"
-                  >
-                    <td>
-                      <div className="flex items-center min-w-52 gap-1 pl-4">
-                        <RenderImage
-                          id={product.id}
-                          altImage={product.name}
-                        />
-                        <p className="flex flex-col pl-2">
-                          {product.name}
-                          <span>
-                            {product.description}
-                          </span>
-                        </p>
-                      </div>
-                    </td>
-                    <td className="text-center min-w-32">
-                      {categoryName}
-                    </td>
-                    <td className="text-center min-w-32">
-                      {formatCurrency(product.price)}
-                    </td>
-                    <td className="text-center min-w-32">
-                      {product.quantity}
-                    </td>
-                    <td>
-                      <div className="flex gap-3 min-w-32 justify-center items-center">
-                        <SquarePen
-                          className="text-blue-500 cursor-pointer size-5"
-                          onClick={() => setProductToEdit(product)}
-                        />
-                        <Trash2
-                          className="text-red-500 cursor-pointer size-5"
-                          onClick={() => deleteProduct(product)}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                )
-              })}
-          </tbody>
-        </table>
-      </div>
+      <DataTable
+        value={productsToShow}
+        tableStyle={{ minWidth: '50rem' }}
+        emptyMessage="Sin registros"
+        pt={{
+          table: { className: 'w-full text-sm text-left text-gray-500 mt-2' },
+          thead: { className: 'text-xs font-family-inter-bold text-gray-700 uppercase bg-gray-50' },
+          tbody: { className: 'bg-white' },
+        }}
+      >
+        <Column header="nombre" body={ProductName} ></Column>
+        <Column header="categoria" body={ProductCategory} ></Column>
+        <Column header="precio" body={ProductPrice} ></Column>
+        <Column field="quantity" header="stock"></Column>
+        <Column header="acciones" body={ButtonActions}></Column>
+      </DataTable>
+
+      <Pagination
+        first={first}
+        totalRecords={products.length}
+        rows={register}
+        onPageChange={(e: PaginatorPageChangeEvent) => {
+          setFirst(e.first);
+          setPage(e.page + 1)
+        }}
+      />
     </>
   )
 }
