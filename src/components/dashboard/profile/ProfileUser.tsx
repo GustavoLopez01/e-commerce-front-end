@@ -4,7 +4,7 @@ import { getAllRoles } from "../../../api/users/api_roles";
 import { updateUser } from "../../../api/users/api_user";
 import { UserSchema } from "../../../schema/user.schema";
 import { errorToast, successToast } from "../../../toast";
-import HeaderSection from "../HeaderSection";
+import HeaderTitle from "../HeaderTitle";
 import Loader from "../../ux/Loader";
 import type { UserRole } from "../../../types/rol";
 
@@ -80,7 +80,7 @@ export default function ProfileUser() {
         </div>
       ) : (
         <>
-          <HeaderSection title="Mi perfil" />
+          <HeaderTitle title="Mi perfil" />
           <form
             className="bg-white rounded-md px-3 py-5 mt-5 grid md:grid-cols-2 xl:grid-cols-3 gap-5 text-black"
             autoComplete="off"

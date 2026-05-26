@@ -6,6 +6,7 @@ import CreateUserModal from "../../modal/CreateUserModal";
 import DeleteModal from "../../modal/DeleteModal";
 import UsersList from "./UsersList";
 import UserForm from "./UserForm";
+import HeaderTitle from "../HeaderTitle";
 import type { UserBody } from "../../../types/user";
 import type { UserRole } from "../../../types/rol";
 
@@ -108,6 +109,7 @@ export default function UsersMain() {
         </Suspense>
       )}
 
+      <HeaderTitle title="Gestiona usuarios" />
       <div className="text-black py-5">
         <UsersList
           usersList={userList}

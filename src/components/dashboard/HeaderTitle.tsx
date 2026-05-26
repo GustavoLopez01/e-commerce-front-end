@@ -3,7 +3,7 @@ type HeaderSectionProps = {
   title: string
 }
 
-export default function HeaderSection({
+export default function HeaderTitle({
   title
 }: HeaderSectionProps) {
   return (

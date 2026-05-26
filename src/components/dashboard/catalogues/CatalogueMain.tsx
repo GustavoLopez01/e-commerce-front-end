@@ -5,6 +5,7 @@ import { api_getAllCategories } from "../../../api/category-products/api_categor
 import RolesTable from "./RolesTable";
 import CategoriesTable from "./CategoriesTable";
 import Loader from "../../ux/Loader";
+import HeaderTitle from "../HeaderTitle";
 import type { UserRole } from "../../../types/rol";
 import type { ProductCategory } from "../../../types/productCategory";
 
@@ -52,6 +53,7 @@ export default function CatalogueMain() {
 
   return (
     <>
+      <HeaderTitle title="Gestiona catálogos" />
       <div className={`w-full flex flex-col justify-center ${isLoading ? 'items-center h-full' : ''} text-black pt-5`}>
         {isLoading ? (
           <Loader

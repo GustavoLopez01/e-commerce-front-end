@@ -35,7 +35,7 @@ export default function TableProducts({
 
   const ProductName = (product: Product) => {
     return (
-      <div className="flex items-center min-w-52 gap-1 pl-4">
+      <div className="flex items-center min-w-52 gap-1 pl-4 z-0">
         <RenderImage
           id={product.id}
           altImage={product.name}
@@ -98,6 +98,7 @@ export default function TableProducts({
     <>
       <SearchProducts
         categories={categoriesList}
+        categoryId={categoryId}
         setSearch={setSearch}
         setCategoryId={setCategoryId}
         setShowModal={() => setShowModal(true)}

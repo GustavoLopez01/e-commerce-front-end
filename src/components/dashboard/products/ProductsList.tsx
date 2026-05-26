@@ -11,9 +11,9 @@ import ProductForm from "./ProductForm";
 import Header from "../Header";
 import TableProducts from "../TableProducts";
 import Loader from "../../ux/Loader";
+import HeaderTitle from "../HeaderTitle";
 import type { Product } from "../../../types/product";
 import type { ProductCategory } from "../../../types/productCategory";
-import HeaderSection from "../HeaderSection";
 
 export default function ProductsList() {
   const [productsList, setProductsList] = useState<Product[]>([]);
@@ -112,7 +112,7 @@ export default function ProductsList() {
           />
         ) : (
           <div className="w-full flex flex-col">
-            <HeaderSection title="Gestiona tus productos" />
+            <HeaderTitle title="Gestiona productos" />
             <Header
               products={productsList}
             />
