@@ -22,7 +22,7 @@ export default function ProductsList() {
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleUpdateProductsList = (product: Product) => {
     let updateProducts = [];

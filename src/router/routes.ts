@@ -6,6 +6,7 @@ import ProfileUser from "../components/dashboard/profile/ProfileUser";
 import UsersMain from "../components/dashboard/users/UsersMain";
 import CustomersMain from "../components/dashboard/customers/CustomersMain";
 import CatalogueMain from "../components/dashboard/catalogues/CatalogueMain";
+import MainAnalytics from "../components/dashboard/analytics/MainAnalytics";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +36,11 @@ const router = createBrowserRouter([
       {
         path: "catalogues",
         Component: CatalogueMain
-      }
+      },
+      {
+        path: "analytics",
+        Component: MainAnalytics
+      },
     ]
   }
 ]);
