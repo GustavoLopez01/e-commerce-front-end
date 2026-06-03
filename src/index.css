@@ -4,7 +4,7 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 @import "tailwindcss";
 @import 'primereact/resources/themes/lara-light-blue/theme.css';
-
+@import './theme.css';
 
 @font-face {
   font-family: 'inter-regular';
@@ -41,6 +41,10 @@
 }
 
 @layer base {
+
+  h1 {
+    font-family: var(--font-family-inter-bold);
+  }
 
   /* Webkit browsers (Chrome, Safari, Edge) */
   ::-webkit-scrollbar {

@@ -6,11 +6,16 @@ import ProfileUser from "../components/dashboard/profile/ProfileUser";
 import UsersMain from "../components/dashboard/users/UsersMain";
 import CustomersMain from "../components/dashboard/customers/CustomersMain";
 import CatalogueMain from "../components/dashboard/catalogues/CatalogueMain";
+import Login from "../components/auth/Login";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: Root,
+  },
+  {
+    path: "/login",
+    Component: Login,
   },
   {
     path: "dashboard",

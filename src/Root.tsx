@@ -1,9 +1,9 @@
-import Login from "./components/auth/Login";
+import MainShop from "./components/shop/MainShop";
 
 export default function Root() {
   return (
     <>
-      <Login />
+      <MainShop />
     </>
   )
 }

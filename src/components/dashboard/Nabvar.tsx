@@ -39,7 +39,7 @@ export default function Nabvar() {
             <User className="text-gray-500 size-6" />
             {userStore?.name}
             <LogOut
-              className="text-gray-500 size-5"
+              className="text-gray-500 size-5 cursor-pointer"
               onClick={handleLogout}
             />
           </ContainerUserInformation>
