@@ -7,6 +7,8 @@ import UsersMain from "../components/dashboard/users/UsersMain";
 import CustomersMain from "../components/dashboard/customers/CustomersMain";
 import CatalogueMain from "../components/dashboard/catalogues/CatalogueMain";
 import Login from "../components/auth/Login";
+import MainShop from "../components/shop/MainShop";
+import ProductDetail from "../components/shop/ProductDetail";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
         Component: CatalogueMain
       }
     ]
+  },
+  {
+    path: "shop",
+    Component: MainShop,
+  },
+  {
+    path: "product",
+    Component: ProductDetail
   }
 ]);
 

@@ -3,6 +3,7 @@ import FeaturedProducts from "./components/FeaturedProducts";
 import FeaturesCard from "./components/FeaturesCard";
 import MainProduct from "./components/MainProduct";
 import NavbarShop from "./components/NavbarShop";
+import Reviews from "./components/Reviews";
 
 export default function MainShop() {
   return (
@@ -12,6 +13,7 @@ export default function MainShop() {
       <FeaturesCard />
       <CategoriesSection />
       <FeaturedProducts />
+      <Reviews />
     </div>
   )
 }

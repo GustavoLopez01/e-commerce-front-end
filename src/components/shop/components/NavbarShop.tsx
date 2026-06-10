@@ -2,7 +2,7 @@ import { Heart, Menu, ShoppingCart } from "lucide-react";
 
 export default function NavbarShop() {
   return (
-    <nav className="w-full py-3 px-8 flex justify-between">
+    <nav className="w-full bg-white/95 py-3 px-8 flex justify-between fixed z-10">
       <h1 className="text-2xl">
         Nexus Shop
       </h1>
