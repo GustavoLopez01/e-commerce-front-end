@@ -4,7 +4,8 @@ import type {
   ApiGetProductsResponse,
   Product,
   ApiCreatetProductResponse,
-  UpdateProduct
+  UpdateProduct,
+  ApiGetProductResponse
 } from "../../types/product";
 import { getCookie } from "../../helpers/cookie";
 
@@ -17,7 +18,21 @@ export const api_getAllProducts = async (): Promise<ApiGetProductsResponse | nul
     return response;
   } catch (error) {
     console.error(`Ocurrió un error al obtener los productos - ${error}`);
-    return null
+    return null;
+  }
+}
+
+export const api_getProductById = async (id: Product['id']): Promise<ApiGetProductResponse | null> => {
+  try {
+    const URL = `${URL_BACKEND_APP}/products/${id}`;
+    const response = await handleFetch(URL, {
+      method: "GET"
+    });
+
+    return response;
+  } catch (error) {
+    console.error(`Ocurrió un error al obtener el producto - ${error}`);
+    return null;
   }
 }
 

@@ -22,3 +22,7 @@ export type ApiGetProductsResponse = ApiResponse & {
 export type ApiCreatetProductResponse = ApiResponse & {
   product: Product
 }
+
+export type ApiGetProductResponse = ApiResponse & {
+  product: Product
+}

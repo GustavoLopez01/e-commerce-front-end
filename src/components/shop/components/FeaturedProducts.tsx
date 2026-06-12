@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { useProductStore } from "../../../store/useProductStore";
 import { api_getAllProducts } from "../../../api/products/api_product";
 import ProductCard from "../../ux/shop/ProductCard";
 import TitleSectionStore from "./TitleSectionStore";
 import type { Product } from "../../../types/product";
-import { useNavigate } from "react-router";
 
 export default function FeaturedProducts() {
   const setProduct = useProductStore(state => state.setProduct);
@@ -16,7 +16,7 @@ export default function FeaturedProducts() {
       if (response?.success && response.products) setProducts(response.products);
     })
   }, []);
-  
+
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <TitleSectionStore title="Productos destacados" />
@@ -27,7 +27,7 @@ export default function FeaturedProducts() {
             product={product}
             onShowDetail={() => {
               setProduct(product);
-              navigate("/shop/product")
+              navigate(`/shop/detail-product/${product.id}`)
             }}
           />
         ))}
