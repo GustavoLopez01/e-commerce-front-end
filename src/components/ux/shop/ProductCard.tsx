@@ -62,7 +62,7 @@ export default function ProductCard({
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
         <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-200">
           <button
-            className="flex items-center gap-1.5 px-4 py-2 bg-white rounded-full text-sm font-semibold text-foreground hover:bg-secondary transition-colors shadow-md"
+            className="cursor-pointer flex items-center gap-1.5 px-4 py-2 bg-white rounded-full text-sm font-semibold text-foreground hover:bg-secondary transition-colors shadow-md"
             onClick={onShowDetail}
           >
             <Eye className="w-3.5 h-3.5" />

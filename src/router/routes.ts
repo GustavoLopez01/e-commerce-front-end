@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router";
-import Root from "../Root";
 import Dashboard from "../layout/DashboardLayout";
 import ProductsList from "../components/dashboard/products/ProductsList";
 import ProfileUser from "../components/dashboard/profile/ProfileUser";
@@ -13,12 +12,22 @@ import DetailProduct from "../components/shop/components/DetailProduct";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    Component: Root,
-  },
-  {
     path: "/login",
     Component: Login,
+  },
+  {
+    path: "/",
+    Component: ShopLayout,
+    children: [
+      {
+        index: true,
+        Component: MainShop
+      },
+      {
+        path: "shop/detail-product/:productId",
+        Component: DetailProduct
+      }
+    ]
   },
   {
     path: "dashboard",
@@ -43,20 +52,6 @@ const router = createBrowserRouter([
       {
         path: "catalogues",
         Component: CatalogueMain
-      }
-    ]
-  },
-  {
-    path: "shop",
-    Component: ShopLayout,
-    children: [
-      {
-        index: true,
-        Component: MainShop
-      },
-      {
-        path: "detail-product/:productId",
-        Component: DetailProduct
       }
     ]
   },

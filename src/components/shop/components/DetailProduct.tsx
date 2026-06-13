@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { useProductStore } from "../../../store/useProductStore"
 import {
@@ -19,11 +19,17 @@ import {
 import { URL_BACKEND_APP } from "../../../constant";
 import { api_getProductById } from "../../../api/products/api_product";
 import type { Product } from "../../../types/product";
+import { formatCurrency } from "../../../helpers/string-functions";
 
 export default function DetailProduct() {
+  const navigate = useNavigate();
+
   const params = useParams<{ productId: string }>()
   const productStore = useProductStore(state => state.product);
   const [product, setProduct] = useState<Product | null>(null);
+  const [added, setAdded] = useState(false);
+
+  const handleBack = () => navigate(-1);
 
   useEffect(() => {
     if (productStore) {
@@ -43,22 +49,22 @@ export default function DetailProduct() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-background"
+      className="min-h-screen bg-background pt-16"
     >
       {/* Breadcrumb */}
       <div className="bg-card border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 text-sm text-muted-foreground">
           <button
-            // onClick={onBack} 
-            className="flex items-center gap-1 hover:text-foreground transition-colors font-medium"
+            onClick={handleBack}
+            className="cursor-pointer flex items-center gap-1 hover:text-foreground transition-colors font-medium"
           >
             <ChevronLeft className="w-4 h-4" />
             Volver
           </button>
           <span>/</span>
-          {/* <span className="capitalize">{product.category}</span> */}
+          <span className="capitalize">{product?.category?.name}</span>
           <span>/</span>
-          {/* <span className="text-foreground font-medium truncate">{product.name}</span> */}
+          <span className="text-foreground font-medium truncate">{product?.name}</span>
         </div>
       </div>
 
@@ -71,12 +77,12 @@ export default function DetailProduct() {
               <AnimatePresence mode="wait">
                 <motion.img
                   // key={mainImg}
-                  // initial={{ opacity: 0, scale: 1.04 }}
-                  // animate={{ opacity: 1, scale: 1 }}
-                  // exit={{ opacity: 0 }}
-                  // transition={{ duration: 0.25 }}
+                  initial={{ opacity: 0, scale: 1.04 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
                   src={`${URL_BACKEND_APP}/products/get-image-product/${product?.id}`}
-                  // alt={product.name}
+                  alt={product?.name}
                   className="w-full h-full object-cover"
                 />
               </AnimatePresence>
@@ -112,14 +118,14 @@ export default function DetailProduct() {
                   {/* {product.isBestSeller && <span className="px-2 py-0.5 rounded-md text-xs font-bold" style={{ background: 'var(--brand)', color: 'white' }}>MÁS VENDIDO</span>} */}
                 </div>
               </div>
-              <button className="p-2 rounded-full hover:bg-secondary transition-colors">
+              <button className="p-2 cursor-pointer rounded-full hover:bg-secondary transition-colors">
                 <Heart className={`w-6 h-6 ${true ? 'fill-current text-red-500' : 'text-muted-foreground'}`} />
               </button>
             </div>
 
             <div>
               <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 800, lineHeight: 1.15 }} className="text-foreground">
-                {/* {product.name} */}
+                {product?.name}
               </h1>
               {/* <p className="text-muted-foreground mt-2">{product.tagline}</p> */}
             </div>
@@ -141,7 +147,7 @@ export default function DetailProduct() {
             <div className="p-4 rounded-2xl bg-secondary space-y-2">
               <div className="flex items-end gap-3">
                 <span style={{ fontSize: '2.25rem', fontWeight: 900, color: 'var(--foreground)', lineHeight: 1 }}>
-                  {/* {product.price} € */}
+                  {product?.price && formatCurrency(product.price)}
                 </span>
                 {/* <span className="text-muted-foreground line-through text-lg">{product.originalPrice} €</span> */}
                 <span className="px-2 py-0.5 rounded-md text-sm font-bold bg-destructive text-destructive-foreground">
@@ -211,7 +217,7 @@ export default function DetailProduct() {
                 <div className="flex items-center gap-2 border border-border rounded-xl overflow-hidden">
                   <button
                     // onClick={() => setQty(q => Math.max(1, q - 1))}
-                    className="p-2.5 hover:bg-secondary transition-colors"
+                    className="cursor-pointer p-2.5 hover:bg-secondary transition-colors"
                   >
                     <Minus className="w-4 h-4" />
                   </button>
@@ -223,7 +229,7 @@ export default function DetailProduct() {
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
-                {/* <span className="text-sm text-muted-foreground">{product.stock} disponibles</span> */}
+                <span className="text-sm text-muted-foreground">{product?.quantity} disponibles</span>
               </div>
             </div>
 
@@ -231,22 +237,22 @@ export default function DetailProduct() {
             <div className="flex gap-3">
               <button
                 // onClick={handleAddToCart}
-                className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-base transition-all duration-200 ${true ? 'bg-accent text-white' : 'bg-foreground text-primary-foreground hover:opacity-80'
+                className={`cursor-pointer flex-1 flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-base transition-all duration-200 ${true ? 'bg-accent text-white' : 'bg-foreground text-primary-foreground hover:opacity-80'
                   }`}
               >
                 <ShoppingCart className="w-5 h-5" />
-                {/* {added ? '¡Añadido al carrito!' : 'Añadir al carrito'} */}
+                {added ? '¡Añadido al carrito!' : 'Añadir al carrito'}
               </button>
               <button
                 // onClick={handleBuyNow}
-                className="flex-1 flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-base text-white transition-all hover:opacity-90"
+                className="flex-1 cursor-pointer flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-base text-white transition-all hover:opacity-90"
                 style={{ background: 'var(--brand)' }}
               >
                 <Zap className="w-5 h-5" />
                 Comprar ahora
               </button>
             </div>
-            <button className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-border font-semibold text-sm hover:bg-secondary transition-colors">
+            <button className="w-full cursor-pointer flex items-center justify-center gap-2 py-3 rounded-xl border border-border font-semibold text-sm hover:bg-secondary transition-colors">
               <Share2 className="w-4 h-4" />
               Compartir
             </button>
