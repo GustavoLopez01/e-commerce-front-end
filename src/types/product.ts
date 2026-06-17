@@ -14,6 +14,9 @@ export type Product = {
 
 export type CreateProduct = Omit<Product, 'id' | 'category'>;
 export type UpdateProduct = Omit<Product, 'id' | 'category'>;
+export type ProductCart = Omit<Product, 'quantity'> & {
+  totalItems: number
+};
 
 export type ApiGetProductsResponse = ApiResponse & {
   products: Product[]

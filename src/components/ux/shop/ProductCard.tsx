@@ -1,7 +1,8 @@
 import { Eye, Heart, ShoppingCart, Star } from "lucide-react";
 import { motion } from "motion/react";
-import { URL_BACKEND_APP } from "../../../constant";
+import { useCartShop } from "../../../store/useCartShop";
 import type { Product } from "../../../types/product";
+import { URL_BACKEND_APP } from "../../../constant";
 
 type ProductCardProps = {
   product: Product
@@ -12,6 +13,13 @@ export default function ProductCard({
   product,
   onShowDetail
 }: ProductCardProps) {
+
+  const addProduct = useCartShop(state => state.addProduct);
+
+  const handleProductToCart = () => {
+    addProduct(product);
+  }
+
   return (
     <motion.div
       layout
@@ -19,7 +27,7 @@ export default function ProductCard({
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -4 }}
       transition={{ duration: 0.25 }}
-      className="group relative rounded-2xl border border-border overflow-hidden cursor-pointer"
+      className="group relative rounded-2xl border border-border overflow-hidden"
       style={{ boxShadow: 'var(--shadow-sm)' }}
     >
       {/* Image area */}
@@ -131,10 +139,11 @@ export default function ProductCard({
 
           </div>
           <button
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${true
+            className={`cursor-pointer flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${true
               ? 'bg-accent text-white scale-95'
               : 'bg-foreground text-primary-foreground hover:opacity-80'
               }`}
+            onClick={handleProductToCart}
           >
             <ShoppingCart className="w-3.5 h-3.5" />
             {false ? '¡Añadido!' : 'Añadir'}
