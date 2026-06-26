@@ -8,6 +8,7 @@ type State = {
 
 type Action = {
   addProduct: (product: Product) => void
+  removeProduct: (id: ProductCart['id']) => void
   setShowSidebar: (showSidebar: Boolean) => void
 }
 
@@ -41,5 +42,10 @@ export const useCartShop = create<State & Action>((set, get) => ({
   addProduct: (product) => {
     const productList = addProductToCart(product, get().productList);
     set(() => ({ productList }))
-  }
+  },
+  removeProduct: (id) => set(() => ({
+    productList: get().productList.filter(product =>
+      product.id !== id
+    )
+  }))
 }));

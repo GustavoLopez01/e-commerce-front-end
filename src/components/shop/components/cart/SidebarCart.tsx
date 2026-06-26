@@ -1,12 +1,20 @@
+import { useMemo } from "react";
+import { motion } from "motion/react";
 import { useCartShop } from "../../../../store/useCartShop";
 import { formatCurrency } from "../../../../helpers/string-functions";
 import { ArrowRight, ShoppingBag, Trash2, X } from "lucide-react";
 import { URL_BACKEND_APP } from "../../../../constant";
-import { motion } from "motion/react";
 
 export default function SidebarCart() {
   const productList = useCartShop(state => state.productList);
+  const removeProduct = useCartShop(state => state.removeProduct);
   const setShowSidebar = useCartShop(state => state.setShowSidebar);
+
+  const totalProducts = useMemo(() => {
+    return productList.reduce((acc, product) =>
+      acc + (product.price * product.totalItems), 0
+    );
+  }, [productList]);
 
   return (
     <motion.aside
@@ -28,10 +36,11 @@ export default function SidebarCart() {
       </div>
 
       {productList.length > 0 ? (
-        <section className="h-full flex flex-col justify-between gap-10 px-4 pt-4">
-          <div className="max-h-3/4 flex flex-col gap-3 ">
+        <section className="h-full flex flex-col justify-between gap-10 pt-4">
+          <div className="max-h-3/4 flex flex-col gap-3 px-4">
             {productList.map(product => (
               <div
+                key={product.id}
                 className="w-full grid grid-cols-3 bg-gray-50 border-2 border-gray-100 p-2 rounded-md"
               >
                 <img
@@ -52,8 +61,11 @@ export default function SidebarCart() {
                     </div>
 
                     <span className="flex items-center gap-2 font-family-inter-bold text-[12px]">
-                      {`${formatCurrency(product.price)} MXN`}
-                      <Trash2 className="w-4 h-4 text-gray-500 cursor-pointer transition-transform group-hover:translate-x-1" />
+                      {`${formatCurrency(product.price * product.totalItems)} MXN`}
+                      <Trash2
+                        className="w-4 h-4 text-gray-500 cursor-pointer transition-transform group-hover:translate-x-1"
+                        onClick={() => removeProduct(product.id)}
+                      />
                     </span>
                   </div>
                 </div>
@@ -62,8 +74,23 @@ export default function SidebarCart() {
           </div>
 
           <div className="grid gap-1 mb-20">
+            <div className="w-full border text-sm py-3">
+              <p className="flex justify-between px-5 py-1">
+                Subtotal
+                <span>{formatCurrency(totalProducts)} MXN</span>
+              </p>
+              <p className="flex justify-between px-5 py-1">
+                Envio
+                <span>Gratis</span>
+              </p>
+            </div>
+
+            <p className="flex font-family-inter-bold justify-between text-sm px-5 py-2">
+              Total
+              <span>{formatCurrency(totalProducts)} MXN</span>
+            </p>
             <button
-              className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-family-inter-bold text-base transition-all duration-200 hover:gap-3"
+              className="cursor-pointer group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-family-inter-bold text-base transition-all duration-200 hover:gap-3 mx-4"
               style={{ background: 'var(--brand)', color: 'white' }}
             >
               Finalizar compra
