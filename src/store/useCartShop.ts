@@ -3,10 +3,12 @@ import type { Product, ProductCart } from "../types/product";
 
 type State = {
   productList: ProductCart[]
+  showSidebar: Boolean
 }
 
 type Action = {
   addProduct: (product: Product) => void
+  setShowSidebar: (showSidebar: Boolean) => void
 }
 
 function addProductToCart(product: Product, productList: ProductCart[]) {
@@ -34,8 +36,10 @@ function addProductToCart(product: Product, productList: ProductCart[]) {
 
 export const useCartShop = create<State & Action>((set, get) => ({
   productList: [],
+  showSidebar: false,
+  setShowSidebar: (showSidebar) => set(() => ({ showSidebar })),
   addProduct: (product) => {
     const productList = addProductToCart(product, get().productList);
     set(() => ({ productList }))
   }
-}))
+}));
