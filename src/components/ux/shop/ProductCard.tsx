@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { useCartShop } from "../../../store/useCartShop";
 import type { Product } from "../../../types/product";
 import { URL_BACKEND_APP } from "../../../constant";
+import { showToast } from "../../../helpers/toast";
 
 type ProductCardProps = {
   product: Product
@@ -18,6 +19,7 @@ export default function ProductCard({
 
   const handleProductToCart = () => {
     addProduct(product);
+    showToast("success", "¡Se agrego el producto al carrito!");
   }
 
   return (

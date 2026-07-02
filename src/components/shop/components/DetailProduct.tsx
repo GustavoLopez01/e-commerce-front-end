@@ -41,9 +41,6 @@ export default function DetailProduct() {
     })
   }, [productStore?.id]);
 
-  console.log(product);
-
-
   return (
     <motion.div
       initial={{ opacity: 0 }}

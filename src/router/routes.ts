@@ -9,6 +9,7 @@ import Login from "../components/auth/Login";
 import MainShop from "../components/shop/MainShop";
 import ShopLayout from "../layout/ShopLayout";
 import DetailProduct from "../components/shop/components/DetailProduct";
+import Profile from "../components/shop/components/user/Profile";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "shop/detail-product/:productId",
         Component: DetailProduct
+      },
+      {
+        path: "shop/profile",
+        Component: Profile
       }
     ]
   },
