@@ -1,22 +1,18 @@
 import { toast } from "sonner";
 
-const DURATION = 2500;
-const CLASS_NAME = '!transition !delay-150 !duration-300 !ease-in-out';
+const PROPERTIES = {
+  duration: 2500,
+  className: '!transition !delay-150 !duration-300 !ease-in-out',
+  closeButton: true,
+}
 
 export const showToast = (type: string, msg: string) => {
-
   switch (type) {
     case "success":
-      toast.success(msg, {
-        className: CLASS_NAME,
-        duration: DURATION,
-      });
+      toast.success(msg, {...PROPERTIES});
       break;
     case "warning":
-      toast.warning(msg, {
-        className: CLASS_NAME,
-        duration: DURATION,
-      });
+      toast.warning(msg, {...PROPERTIES});
       break;
 
     default:
