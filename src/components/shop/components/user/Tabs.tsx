@@ -46,6 +46,7 @@ export default function Tabs({
           const isSelected = currentTab === name;
           return (
             <div
+              key={name}
               className={`text-left cursor-pointer 
                 ${isSelected ? ' font-family-inter-bold' : ''}`}
             >
